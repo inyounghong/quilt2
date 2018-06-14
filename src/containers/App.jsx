@@ -4,82 +4,95 @@ import appActions from '../redux/actions/app';
 import storyActions from '../redux/actions/stories';
 import { connect } from 'react-redux';
 import List from '../components/List.jsx';
+import Square from '../components/Square.jsx';
+import Quilt from '../components/Quilt.jsx';
+import FabricBar from '../components/FabricBar.jsx';
 
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
 class App extends React.Component {
 
-    constructor() {
-        super();
-        this.handleAddStory = this.handleAddStory.bind(this);
-        this.setEditingNote = this.setEditingNote.bind(this);
-        this.handleDeleteTask = this.handleDeleteTask.bind(this);
-        this.handleToggleView = this.handleToggleView.bind(this);
-    }
+  constructor() {
+    super();
+    this.handleAddStory = this.handleAddStory.bind(this);
+    this.setEditingNote = this.setEditingNote.bind(this);
+    this.handleDeleteTask = this.handleDeleteTask.bind(this);
+    this.handleToggleView = this.handleToggleView.bind(this);
+  }
 
-    handleToggleView() {
-        this.props.handleToggleView(!this.props.app.isColumnView);
-    }
+  handleToggleView() {
+    this.props.handleToggleView(!this.props.app.isColumnView);
+  }
 
-    setEditingNote(noteId) {
-        setState({editingNote: noteId});
-    }
+  setEditingNote(noteId) {
+    setState({editingNote: noteId});
+  }
 
-    handleDeleteTask(taskId) {
-        this.props.deleteTask(this.props.selectedNote, taskId);
-    }
+  handleDeleteTask(taskId) {
+    this.props.deleteTask(this.props.selectedNote, taskId);
+  }
 
-    handleAddStory() {
-        console.log("add story");
-    }
+  handleAddStory() {
+    console.log("add story");
+  }
 
-    render() {
-        const columnClass = (this.props.app.isColumnView) ? "tab active" : "tab";
-        const storyClass = (!this.props.app.isColumnView) ? "tab active" : "tab";
+  render() {
+    const columnClass = (this.props.app.isColumnView) ? "tab active" : "tab";
+    const storyClass = (!this.props.app.isColumnView) ? "tab active" : "tab";
+    return (
 
-        return (
+      <div className="container">
+        <div>
+          Rows: <input type="text" value="3"/>
+          Cols: <input type="text" value="5"/>
+        </div>
+        <FabricBar fabrics={this.props.fabric}/>
+        Hello
+        <Quilt quilt={this.props.quilt} fabrics={this.props.fabric}/>
 
-            <div className="container">
-                <div className="tab-wrap">
-                    <div
-                        className={columnClass}
-                        onClick={this.handleToggleView}>
-                        <i className="fa fa-columns"></i> Column View
-                    </div>
-                    <div className={storyClass}
-                        onClick={this.handleToggleView}>
-                        <i className="fa fa-align-justify"></i> Story View
-                    </div>
-                </div>
 
-                <List
-                    stories={this.props.stories}
-                    tasks={this.props.tasks}
-                />
-                <div className="add-story"
-                     onClick={this.addStory} >
-                     <i className="fa fa-fw fa-plus"></i> Add Story
-                 </div>
-                 <br/><br/>
-                 <div className="reset-store" onClick={this.props.onReset}>
-                     Reset persisted store
-                 </div>
-            </div>
-        );
-    }
+
+        <br/><br/><br/>
+        <div className="tab-wrap">
+          <div
+            className={columnClass}
+            onClick={this.handleToggleView}>
+            <i className="fa fa-columns"></i> Column View
+          </div>
+          <div className={storyClass}
+            onClick={this.handleToggleView}>
+            <i className="fa fa-align-justify"></i> Story View
+          </div>
+        </div>
+
+        <List
+          stories={this.props.stories}
+          tasks={this.props.tasks}
+        />
+        <div className="add-story"
+          onClick={this.addStory} >
+          <i className="fa fa-fw fa-plus"></i> Add Story
+        </div>
+        <br/><br/>
+        <div className="reset-store" onClick={this.props.onReset}>
+          Reset persisted store
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => (state);
 
 const mapDispatchToProps = (dispatch) => ({
-    // handle View
-    handleToggleView(isColumnView) {
-        dispatch(appActions.setIsColumnView(isColumnView));
-    }
+  // handle View
+  handleToggleView(isColumnView) {
+    dispatch(appActions.setIsColumnView(isColumnView));
+  }
 
 });
 
 export default DragDropContext(HTML5Backend)(
-    connect(mapStateToProps, mapDispatchToProps)(App)
+  connect(mapStateToProps, mapDispatchToProps)(App)
 );
