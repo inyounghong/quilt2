@@ -21,29 +21,51 @@ class Square extends React.Component {
     this.props.updateSquare(updatedSquare);
   }
 
+  rotateSquare(r) {
+    const square = this.props.square;
+    let rotation = (square.rotation + r) % 4;
+    rotation = rotation < 0 ? 3 : rotation;
+    this.props.rotateSquare(square.id, rotation);
+  }
+
   render() {
     const {col, fabrics, square} = this.props;
     const color0 = fabrics.find(fabric => fabric.id == square.fabrics[0]).color;
     const color1 = fabrics.find(fabric => fabric.id == square.fabrics[1]).color;
 
+    const rotations = [
+      ["0,0 0,100 100,0", "100,100 0,100 100,0"],
+      ["0,0 100,100 100,0", "0,0 100,100 0,100"],
+      ["100,100 0,100 100,0", "0,0 0,100 100,0"],
+      ["0,0 100,100 0,100", "0,0 100,100 100,0"],
+    ];
+    const r = square.rotation;
+    if (!rotations[r]) return null;
+
     return (
-      <svg height="100" width="100">
-        <polygon
-          points="0,0 0,100 100,0"
-          style={{fill: color0}}
-          onClick={this.handleClick.bind(this, 0)}
-        />
-        <polygon
-          points="100,100 0,100 100,0"
-          style={{fill: color1}}
-          onClick={this.handleClick.bind(this, 1)}
-        />
-      </svg>
+      <div className="square" >
+        <svg height="100" width="100">
+          <polygon
+            points={rotations[r][0]}
+            style={{fill: color0}}
+            onClick={this.handleClick.bind(this, 0)}
+          />
+          <polygon
+            points={rotations[r][1]}
+            style={{fill: color1}}
+            onClick={this.handleClick.bind(this, 1)}
+          />
+        </svg>
+        <div className="rotateLeft" onClick={this.rotateSquare.bind(this, -1)}>
+          <i className="fa fa-chevron-left"></i>
+        </div>
+        <div className="rotateRight" onClick={this.rotateSquare.bind(this, 1)}>
+          <i className="fa fa-chevron-right"></i>
+        </div>
+      </div>
+
     );
   }
 }
 
 export default Square;
-// // {/* <div className="square" style={style} onClick={this.handleClick}>
-//   Square {this.props.square.fabrics[0]}
-// </div> */}

@@ -11,8 +11,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   // // Stories
   updateSquare(square) {
-      dispatch(squaresActions.updateSquare(square));
+    dispatch(squaresActions.updateSquare(square));
   },
+  rotateSquare(squareId, rotation) {
+    dispatch(squaresActions.rotateSquare(squareId, rotation));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(

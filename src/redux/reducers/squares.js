@@ -22,12 +22,22 @@ export default function squares(state = defaultState, action) {
         return state.concat(action.payload);
 
       case actionTypes.UPDATE_SQUARE:
-      return state.map(square => {
-        if(square.id === action.payload.id) {
-          return Object.assign({}, square, action.payload);
-        }
-        return square;
-      });
+        return state.map(square => {
+          if(square.id === action.payload.id) {
+            return Object.assign({}, square, action.payload);
+          }
+          return square;
+        });
+
+      case actionTypes.ROTATE_SQUARE:
+        return state.map(square => { // Look through all squares to find one to change
+          if(square.id === action.payload.id) {
+            const newSquare = square;
+            newSquare.rotation = action.payload.rotation;
+            return Object.assign({}, square, newSquare);
+          }
+          return square;
+        });
 
 
       default:

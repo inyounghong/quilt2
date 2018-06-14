@@ -27,3 +27,4 @@ export const SET_IS_COLUMN_VIEW = 'SET_IS_COLUMN_VIEW';
 export const ADD_ROW_BEFORE = 'ADD_ROW_BEFORE';
 export const CREATE_SQUARE = 'CREATE_SQUARE';
 export const UPDATE_SQUARE = 'UPDATE_SQUARE';
+export const ROTATE_SQUARE = 'ROTATE_SQUARE';

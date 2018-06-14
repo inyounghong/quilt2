@@ -1,6 +1,5 @@
 .square {
-  height: 70px;
-  width: 70px;
+  position: relative;
   display: inline-block;
   background: #ddd;
   text-align: center;
@@ -8,6 +7,46 @@
   cursor: pointer;
 
   &:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+    .rotateLeft, .rotateRight {
+      display: block;
+    }
   }
+
+  polygon {
+    position: relative;
+    &:hover {
+
+    }
+  }
+
+  .rotateLeft, .rotateRight {
+    display: none;
+    position: absolute;
+    bottom: 15px;
+    color: black;
+    background: white;
+    width: 20px;
+    height: 20px;
+    padding-top: 1px;
+    text-align: center;
+    box-sizing: border-box;
+    border-radius: 3px;
+    opacity: 0.6;
+    font-size: 12px;
+    z-index: 99;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .rotateLeft {
+    left: 28px;
+  }
+
+  .rotateRight {
+    right: 28px;
+  }
+
+
 }

@@ -22,8 +22,19 @@ function updateSquare(updatedSquare) {
   };
 }
 
+function rotateSquare(squareId, rotation) {
+  return {
+    type: actionTypes.ROTATE_SQUARE,
+    payload: {
+      id: squareId,
+      rotation: rotation,
+    }
+  }
+}
+
 
 export default {
   createSquare,
   updateSquare,
+  rotateSquare,
 };
