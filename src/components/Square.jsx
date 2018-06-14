@@ -9,7 +9,7 @@ class Square extends React.Component {
 
   handleClick(index) {
     const {selectedFabric, square} = this.props;
-    if (!selectedFabric) {
+    if (selectedFabric == null) {
       return;
     }
     const newFabrics = square.fabrics;
