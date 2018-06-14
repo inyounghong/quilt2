@@ -1,0 +1,35 @@
+.app {
+  background-color: white;
+  min-height: 100vh;
+  position: relative;
+
+}
+
+.container {
+    padding: 20px 50px;
+}
+
+.tab-wrap {
+    text-align: center;
+
+    .tab {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 5px;
+        border-radius: 3px;
+        cursor: pointer;
+
+        &:hover {
+            background: #ddd;
+        }
+
+        &.active {
+            background: $todo;
+            color: #fff;
+        }
+    }
+
+    i {
+        margin-right: 5px;
+    }
+}

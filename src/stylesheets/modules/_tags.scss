@@ -1,0 +1,27 @@
+.tag-wrap {
+    display: inline-block;
+    position: absolute;
+    text-align: right;
+    top: 6px;
+    right: 25px;
+}
+
+.tag {
+    display: inline-block;
+    color: #fff;
+    width: 60px;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 13px;
+    padding: 1px 0;
+
+    &.todo {
+        background: $todo;
+    }
+    &.testing {
+        background: $testing;
+    }
+    &.done {
+        background: $done;
+    }
+}

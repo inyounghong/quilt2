@@ -1,0 +1,70 @@
+{
+  "root": {
+    "src": "./",
+    "dest": "./public"
+  },
+
+  "tasks": {
+    "browserSync": {
+      "browser": "Google Chrome",
+      "server": {
+        "baseDir": "./public"
+      },
+      "notify": false
+    },
+
+    "css": {
+      "src": "src/stylesheets",
+      "dest": "css",
+      "autoprefixer": {
+        "browsers": ["last 3 version"]
+      },
+      "sass": {
+        "indentedSyntax": true
+      },
+      "cssnano": {
+
+      },
+      "extensions": ["scss", "css"]
+    },
+
+    "fonts": {
+      "src": "src/fonts",
+      "dest": "fonts",
+      "extensions": ["woff2", "woff", "eot", "ttf", "svg", "otf"]
+    },
+
+    "html": {
+      "src": "src/html",
+      "dest": "./",
+      "htmlmin": {
+        "collapseWhitespace": true
+      },
+      "extensions": ["html"]
+    },
+
+    "images": {
+      "src": "src/images",
+      "dest": "images",
+      "extensions": ["jpg", "png", "svg", "gif"]
+    },
+
+    "scripts": {
+      "main": "src/index.jsx",
+      "src": "",
+      "dest": "js",
+      "extensions": ["js", "jsx"]
+    },
+
+    "static": {
+      "src": "static",
+      "dest": "./"
+    },
+
+    "svgSprite": {
+      "src": "icons",
+      "dest": "images",
+      "extensions": ["svg"]
+    }
+  }
+}
