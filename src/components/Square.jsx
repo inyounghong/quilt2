@@ -5,28 +5,45 @@ class Square extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
+  handleClick(index) {
+    const {selectedFabric, square} = this.props;
+    if (!selectedFabric) {
+      return;
+    }
+    const newFabrics = square.fabrics;
+    newFabrics[index] = selectedFabric;
     const updatedSquare = {
       ...this.props.square,
-      fabrics: [this.props.selectedFabric]
+      fabrics: newFabrics,
     }
     this.props.updateSquare(updatedSquare);
   }
 
   render() {
-    const style = {
-      background: this.props.color
-    }
+    const {col, fabrics, square} = this.props;
+    const color0 = fabrics.find(fabric => fabric.id == square.fabrics[0]).color;
+    const color1 = fabrics.find(fabric => fabric.id == square.fabrics[1]).color;
 
     return (
-      <div className="square" style={style} onClick={this.handleClick}>
-        Square {this.props.square.fabrics[0]}
-      </div>
+      <svg height="100" width="100">
+        <polygon
+          points="0,0 0,100 100,0"
+          style={{fill: color0}}
+          onClick={this.handleClick.bind(this, 0)}
+        />
+        <polygon
+          points="100,100 0,100 100,0"
+          style={{fill: color1}}
+          onClick={this.handleClick.bind(this, 1)}
+        />
+      </svg>
     );
   }
 }
 
 export default Square;
+// // {/* <div className="square" style={style} onClick={this.handleClick}>
+//   Square {this.props.square.fabrics[0]}
+// </div> */}

@@ -61,7 +61,10 @@ class App extends React.Component {
           setSelectedFabric={this.setSelectedFabric}
           selectedFabric={this.state.selectedFabric}/>
         Selected Fabric: {this.state.selectedFabric}
-        <Quilt quilt={this.props.quilt} squares={this.props.squares} fabrics={this.props.fabric}
+
+        <Quilt quilt={this.props.quilt}
+          squares={this.props.squares}
+          fabrics={this.props.fabric}
           selectedFabric={this.state.selectedFabric}/>
 
 

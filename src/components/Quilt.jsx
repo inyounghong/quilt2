@@ -16,7 +16,6 @@ class Quilt extends Component {
   }
 
   render() {
-    console.log(this.props.selectedFabric);
     const {quilt, fabrics, squares} = this.props;
     const cols = quilt[0].length;
     const fullQuilt = quilt.map((arr, i) => {
@@ -27,9 +26,11 @@ class Quilt extends Component {
         if (!fabric) { return; }
         return (
           <Square key={i*cols+j}
+            col={j}
             square={square}
             color={fabric.color}
             onClick={this.handleClickOnSquare(square)}
+            fabrics={this.props.fabrics}
             selectedFabric={this.props.selectedFabric}
           />
         )
@@ -41,7 +42,6 @@ class Quilt extends Component {
       )
     })
 
-    // return (<div></div>)
     return (
       <div className="quilt">
         {fullQuilt}
