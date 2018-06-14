@@ -1,29 +1,18 @@
 import React, { PropTypes, Component } from 'react';
-import onClickOutside from 'react-onclickoutside';
 
 class Fabric extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isSelected: false,
+
     };
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.handleClickInside = this.handleClickInside.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
   }
 
-  handleClickOutside() {
-    this.setState({isSelected: false});
-    this.props.setSelectedFabric(null);
-  }
 
-  handleClickInside() {
-    if (this.state.isSelected){
-      this.props.setSelectedFabric(null); // Deselect
-    } else {
-      this.props.setSelectedFabric(this.props.fabric.id);
-    }
-    this.setState({isSelected: !this.state.isSelected});
+  handleFocus() {
+    this.props.setSelectedFabric(this.props.fabric.id);
   }
 
   render() {
@@ -31,12 +20,15 @@ class Fabric extends Component {
     const style = {
       background: fabric.color,
     }
-    const className = "fabric" + (this.state.isSelected ? " selected" : "");
+    const className = "fabric" + (this.props.selectedFabric == fabric.id ? " selected" : "");
     return (
-      <div className="fabricWrap" onClick={this.handleClickInside}>
-        <div className={className} style={style}>
-          {fabric.id}: {fabric.color}
-        </div>
+      <div className="fabricWrap">
+        <div
+          className={className}
+          style={style}
+          value={fabric.id}
+          onClick={this.handleFocus}
+        />
         <div className="fabricMenu">
           Change Color
         </div>
@@ -45,4 +37,4 @@ class Fabric extends Component {
   }
 }
 
-export default onClickOutside(Fabric);
+export default Fabric;

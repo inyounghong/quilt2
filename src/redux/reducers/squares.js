@@ -21,6 +21,15 @@ export default function squares(state = defaultState, action) {
       case actionTypes.CREATE_SQUARE:
         return state.concat(action.payload);
 
+      case actionTypes.UPDATE_SQUARE:
+      return state.map(square => {
+        if(square.id === action.payload.id) {
+          return Object.assign({}, square, action.payload);
+        }
+        return square;
+      });
+
+
       default:
         return state;
     }

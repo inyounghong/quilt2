@@ -4,7 +4,6 @@ import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
 import { connect } from 'react-redux';
 import List from '../components/List.jsx';
-import Square from '../components/Square.jsx';
 import Quilt from '../containers/Quilt.jsx';
 import FabricBar from '../components/FabricBar.jsx';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
@@ -57,34 +56,18 @@ class App extends React.Component {
           <MenuItem eventKey="2">Add Row After</MenuItem>
         </DropdownButton>
 
-        <FabricBar fabrics={this.props.fabric} setSelectedFabric={this.setSelectedFabric}/>
+        <FabricBar
+          fabrics={this.props.fabric}
+          setSelectedFabric={this.setSelectedFabric}
+          selectedFabric={this.state.selectedFabric}/>
         Selected Fabric: {this.state.selectedFabric}
-        <Quilt quilt={this.props.quilt} squares={this.props.squares} fabrics={this.props.fabric}/>
+        <Quilt quilt={this.props.quilt} squares={this.props.squares} fabrics={this.props.fabric}
+          selectedFabric={this.state.selectedFabric}/>
 
 
 
         <br/><br/><br/>
-        <div className="tab-wrap">
-          <div
-            className={columnClass}
-            onClick={this.handleToggleView}>
-            <i className="fa fa-columns"></i> Column View
-          </div>
-          <div className={storyClass}
-            onClick={this.handleToggleView}>
-            <i className="fa fa-align-justify"></i> Story View
-          </div>
-        </div>
 
-        <List
-          stories={this.props.stories}
-          tasks={this.props.tasks}
-        />
-        <div className="add-story"
-          onClick={this.addStory} >
-          <i className="fa fa-fw fa-plus"></i> Add Story
-        </div>
-        <br/><br/>
         <div className="reset-store" onClick={this.props.onReset}>
           Reset persisted store
         </div>
@@ -96,7 +79,6 @@ class App extends React.Component {
 const mapStateToProps = (state) => (state);
 
 const mapDispatchToProps = (dispatch) => ({
-  // handle View
   handleToggleView(isColumnView) {
     dispatch(appActions.setIsColumnView(isColumnView));
   },

@@ -15,7 +15,15 @@ function createSquare() {
   };
 }
 
+function updateSquare(updatedSquare) {
+  return {
+    type: actionTypes.UPDATE_SQUARE,
+    payload: updatedSquare,
+  };
+}
+
 
 export default {
   createSquare,
+  updateSquare,
 };

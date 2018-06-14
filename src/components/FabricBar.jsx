@@ -10,7 +10,11 @@ class FabricBar extends React.Component {
   render() {
     const fabrics = this.props.fabrics.map(fabric => {
       return (
-        <Fabric fabric={fabric} setSelectedFabric={this.props.setSelectedFabric}/>
+        <Fabric
+          fabric={fabric}
+          setSelectedFabric={this.props.setSelectedFabric}
+          selectedFabric={this.props.selectedFabric}
+        />
       )
     })
 

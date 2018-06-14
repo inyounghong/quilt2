@@ -1,12 +1,19 @@
 import React, { PropTypes } from 'react';
 
-export default class Square extends React.Component {
+class Square extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = {}
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const updatedSquare = {
+      ...this.props.square,
+      fabrics: [this.props.selectedFabric]
     }
-    // this.handleMove = this.handleMove.bind(this);
+    this.props.updateSquare(updatedSquare);
   }
 
   render() {
@@ -15,9 +22,11 @@ export default class Square extends React.Component {
     }
 
     return (
-      <div className="square" style={style}>
+      <div className="square" style={style} onClick={this.handleClick}>
         Square {this.props.square.fabrics[0]}
       </div>
     );
   }
 }
+
+export default Square;
