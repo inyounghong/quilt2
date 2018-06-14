@@ -5,6 +5,7 @@ import tasksReducer from './tasks';
 import appReducer from './app';
 import quiltReducer from './quilt';
 import fabricsReducer from './fabrics';
+import squaresReducer from './squares';
 
 export default combineReducers({
   stories: storiesReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   app: appReducer,
   quilt: quiltReducer,
   fabric: fabricsReducer,
+  squares: squaresReducer,
 });

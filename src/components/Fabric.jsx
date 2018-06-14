@@ -1,9 +1,29 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
+import onClickOutside from 'react-onclickoutside';
 
-export default class Fabric extends React.Component {
+class Fabric extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      isSelected: false,
+    };
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleClickInside = this.handleClickInside.bind(this);
+  }
+
+  handleClickOutside() {
+    this.setState({isSelected: false});
+    this.props.setSelectedFabric(null);
+  }
+
+  handleClickInside() {
+    if (this.state.isSelected){
+      this.props.setSelectedFabric(null); // Deselect
+    } else {
+      this.props.setSelectedFabric(this.props.fabric.id);
+    }
+    this.setState({isSelected: !this.state.isSelected});
   }
 
   render() {
@@ -11,9 +31,10 @@ export default class Fabric extends React.Component {
     const style = {
       background: fabric.color,
     }
+    const className = "fabric" + (this.state.isSelected ? " selected" : "");
     return (
-      <div className="fabricWrap">
-        <div className="fabric" style={style}>
+      <div className="fabricWrap" onClick={this.handleClickInside}>
+        <div className={className} style={style}>
           {fabric.id}: {fabric.color}
         </div>
         <div className="fabricMenu">
@@ -23,3 +44,5 @@ export default class Fabric extends React.Component {
     );
   }
 }
+
+export default onClickOutside(Fabric);

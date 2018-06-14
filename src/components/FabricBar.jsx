@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Fabric from '../components/Fabric';
 
-export default class FabricBar extends React.Component {
+class FabricBar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -10,7 +10,7 @@ export default class FabricBar extends React.Component {
   render() {
     const fabrics = this.props.fabrics.map(fabric => {
       return (
-        <Fabric fabric={fabric} />
+        <Fabric fabric={fabric} setSelectedFabric={this.props.setSelectedFabric}/>
       )
     })
 
@@ -21,3 +21,5 @@ export default class FabricBar extends React.Component {
     );
   }
 }
+
+export default FabricBar;

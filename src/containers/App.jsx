@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
-import tasksActions from '../redux/actions/tasks';
+import squaresActions from '../redux/actions/squares';
+import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
-import storyActions from '../redux/actions/stories';
 import { connect } from 'react-redux';
 import List from '../components/List.jsx';
 import Square from '../components/Square.jsx';
-import Quilt from '../components/Quilt.jsx';
+import Quilt from '../containers/Quilt.jsx';
 import FabricBar from '../components/FabricBar.jsx';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
@@ -15,41 +16,50 @@ class App extends React.Component {
 
   constructor() {
     super();
-    this.handleAddStory = this.handleAddStory.bind(this);
-    this.setEditingNote = this.setEditingNote.bind(this);
-    this.handleDeleteTask = this.handleDeleteTask.bind(this);
     this.handleToggleView = this.handleToggleView.bind(this);
+    this.setSelectedFabric = this.setSelectedFabric.bind(this);
+    this.handleAddRow = this.handleAddRow.bind(this);
+    this.state = {
+      selectedFabric: null,
+    }
   }
 
   handleToggleView() {
     this.props.handleToggleView(!this.props.app.isColumnView);
   }
 
-  setEditingNote(noteId) {
-    setState({editingNote: noteId});
+  setSelectedFabric(fabricId) {
+    this.setState({selectedFabric: fabricId});
   }
 
-  handleDeleteTask(taskId) {
-    this.props.deleteTask(this.props.selectedNote, taskId);
+  handleAddRow() {
+    const cols = this.props.quilt[0].length;
+    const newSquareIds = [];
+    for (var i = 0; i < cols; i++) {
+      const newSquare = this.props.addSquare();
+      newSquareIds.push(newSquare.payload.id);
+    }
+    this.props.addRowToQuilt(newSquareIds);
   }
 
-  handleAddStory() {
-    console.log("add story");
-  }
 
   render() {
+    console.log(this.props);
     const columnClass = (this.props.app.isColumnView) ? "tab active" : "tab";
     const storyClass = (!this.props.app.isColumnView) ? "tab active" : "tab";
+    const cols = this.props.quilt[0].length;
     return (
 
       <div className="container">
-        <div>
-          Rows: <input type="text" value="3"/>
-          Cols: <input type="text" value="5"/>
-        </div>
-        <FabricBar fabrics={this.props.fabric}/>
-        Hello
-        <Quilt quilt={this.props.quilt} fabrics={this.props.fabric}/>
+
+        <DropdownButton title="Change Size">
+          <MenuItem onClick={this.handleAddRow}>Add Row Before</MenuItem>
+          <MenuItem eventKey="2">Add Row After</MenuItem>
+        </DropdownButton>
+
+        <FabricBar fabrics={this.props.fabric} setSelectedFabric={this.setSelectedFabric}/>
+        Selected Fabric: {this.state.selectedFabric}
+        <Quilt quilt={this.props.quilt} squares={this.props.squares} fabrics={this.props.fabric}/>
 
 
 
@@ -89,8 +99,15 @@ const mapDispatchToProps = (dispatch) => ({
   // handle View
   handleToggleView(isColumnView) {
     dispatch(appActions.setIsColumnView(isColumnView));
-  }
-
+  },
+  addSquare(){
+    const newSquare = squaresActions.createSquare();
+    dispatch(newSquare);
+    return newSquare;
+  },
+  addRowToQuilt(row) {
+    dispatch(quiltActions.addRowBefore(row));
+  },
 });
 
 export default DragDropContext(HTML5Backend)(

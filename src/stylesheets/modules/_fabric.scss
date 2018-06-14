@@ -8,4 +8,13 @@
   height: 70px;
   width: 70px;
   text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    outline: 3px solid #ddd;
+  }
+
+  &.selected {
+    outline: 3px solid #aaa;
+  }
 }

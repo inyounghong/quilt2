@@ -1,24 +1,32 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import Square from '../components/Square.jsx';
+// import Quilt from '../containers/Quilt.jsx';
 
-export default class Quilt extends React.Component {
+class Quilt extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
     }
-    // this.handleMove = this.handleMove.bind(this);
+    this.handleClickOnSquare = this.handleClickOnSquare.bind(this);
+  }
+
+  handleClickOnSquare() {
+
   }
 
   render() {
-    const quilt = this.props.quilt;
-    const fabrics = this.props.fabrics;
+    const {quilt, fabrics, squares} = this.props;
     const cols = quilt[0].length;
-    const squares = quilt.map((r, i) => {
-      const row = r.map((square, j) => {
-        const fabric = fabrics.find(fabric => fabric.id == square.fabrics[0], 1);
+    const fullQuilt = quilt.map((arr, i) => {
+      const row = arr.map((squareId, j) => {
+        const square = squares.find(square => square.id == squareId);
+        if (!square) {
+          return;
+        }
+        const fabric = fabrics.find(fabric => fabric.id == square.fabrics[0]);
         return (
-          <Square key={i*cols+j} square={square} color={fabric.color}/>
+          <Square key={i*cols+j} square={square} color={fabric.color} onClick={this.handleClickOnSquare(square)}/>
         )
       });
       return (
@@ -28,11 +36,13 @@ export default class Quilt extends React.Component {
       )
     })
 
-
+    // return (<div></div>)
     return (
       <div className="quilt">
-        {squares}
+        {fullQuilt}
       </div>
     );
   }
 }
+
+export default Quilt;
