@@ -24,7 +24,7 @@ export const MOVE_TASK = 'MOVE_TASK';
 export const SELECT_NOTE = 'SELECT_NOTE';
 export const SET_IS_COLUMN_VIEW = 'SET_IS_COLUMN_VIEW';
 
-export const ADD_ROW_BEFORE = 'ADD_ROW_BEFORE';
+export const ADD_ROW = 'ADD_ROW';
 
 export const CREATE_SQUARE = 'CREATE_SQUARE';
 export const UPDATE_SQUARE = 'UPDATE_SQUARE';

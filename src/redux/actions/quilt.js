@@ -1,12 +1,15 @@
 import * as actionTypes from '../../constants/actionTypes';
 
-function addRowBefore(row) {
+function addRow(row, option) {
   return {
-    type: actionTypes.ADD_ROW_BEFORE,
-    payload: row,
-  };
+    type: actionTypes.ADD_ROW,
+    payload: {
+      row: row,
+      option: option,
+    }
+  }
 }
 
 export default {
-  addRowBefore,
+  addRow,
 };

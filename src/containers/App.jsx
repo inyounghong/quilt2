@@ -17,7 +17,6 @@ class App extends React.Component {
     super();
     this.handleToggleView = this.handleToggleView.bind(this);
     this.setSelectedFabricId = this.setSelectedFabricId.bind(this);
-    this.handleAddRow = this.handleAddRow.bind(this);
     this.state = {
       selectedFabricIdId: null,
     }
@@ -31,14 +30,15 @@ class App extends React.Component {
     this.setState({selectedFabricId: fabricId});
   }
 
-  handleAddRow() {
+  // Option: 0 (add row before) or 1 (add row after)
+  handleAddRow(option) {
     const cols = this.props.quilt[0].length;
     const newSquareIds = [];
     for (var i = 0; i < cols; i++) {
       const newSquare = this.props.addSquare();
       newSquareIds.push(newSquare.payload.id);
     }
-    this.props.addRowToQuilt(newSquareIds);
+    this.props.addRowToQuilt(newSquareIds, option);
   }
 
 
@@ -49,31 +49,31 @@ class App extends React.Component {
     const cols = this.props.quilt[0].length;
     return (
 
-      <div className="container">
+      <div>
+        <div className="sidebar">
+          <DropdownButton title="Change Size">
+            <MenuItem onClick={this.handleAddRow.bind(this, 0)}>Add Row Before</MenuItem>
+            <MenuItem onClick={this.handleAddRow.bind(this, 1)}>Add Row After</MenuItem>
+          </DropdownButton>
 
-        <DropdownButton title="Change Size">
-          <MenuItem onClick={this.handleAddRow}>Add Row Before</MenuItem>
-          <MenuItem eventKey="2">Add Row After</MenuItem>
-        </DropdownButton>
+          <FabricBar
+            fabrics={this.props.fabric}
+            setSelectedFabricId={this.setSelectedFabricId}
+            selectedFabricId={this.state.selectedFabricId}/>
+          Selected Fabric Id: {this.state.selectedFabricId}
 
-        <FabricBar
-          fabrics={this.props.fabric}
-          setSelectedFabricId={this.setSelectedFabricId}
-          selectedFabricId={this.state.selectedFabricId}/>
-        Selected Fabric Id: {this.state.selectedFabricId}
-
-        <Quilt quilt={this.props.quilt}
-          squares={this.props.squares}
-          fabrics={this.props.fabric}
-          selectedFabricId={this.state.selectedFabricId}/>
-
-
-
-        <br/><br/><br/>
-
-        <div className="reset-store" onClick={this.props.onReset}>
-          Reset persisted store
+          <div className="reset-store" onClick={this.props.onReset}>
+            Reset persisted store
+          </div>
         </div>
+
+        <div className="main">
+          <Quilt quilt={this.props.quilt}
+            squares={this.props.squares}
+            fabrics={this.props.fabric}
+            selectedFabricId={this.state.selectedFabricId}/>
+        </div>
+
       </div>
     );
   }
@@ -90,8 +90,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(newSquare);
     return newSquare;
   },
-  addRowToQuilt(row) {
-    dispatch(quiltActions.addRowBefore(row));
+  addRowToQuilt(row, option) {
+    // console.log("adding row", row, option);
+    dispatch(quiltActions.addRow(row, option));
   },
 });
 

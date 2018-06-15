@@ -8,7 +8,6 @@ class Square extends React.Component {
   }
 
   handleClick(index) {
-    console.log("clik", index);
     const {selectedFabricId, square} = this.props;
     if (selectedFabricId == null) {
       return;
@@ -34,23 +33,19 @@ class Square extends React.Component {
     return fabric.color;
   }
 
+
+
   render() {
-    const {col, fabrics, square} = this.props;
+    const {col, fabrics, square, rotations, size} = this.props;
     const color0 = this.getColorFromFabricId(square.fabricIds[0])
     const color1 = this.getColorFromFabricId(square.fabricIds[1])
 
-    const rotations = [
-      ["0,0 0,100 100,0", "100,100 0,100 100,0"],
-      ["0,0 100,100 100,0", "0,0 100,100 0,100"],
-      ["100,100 0,100 100,0", "0,0 0,100 100,0"],
-      ["0,0 100,100 0,100", "0,0 100,100 100,0"],
-    ];
     const r = square.rotation;
     if (!rotations[r]) return null;
 
     return (
-      <div className="square" >
-        <svg height="100" width="100">
+      <div className="square">
+        <svg height={size} width={size}>
           <polygon
             points={rotations[r][0]}
             style={{fill: color0}}
@@ -62,11 +57,13 @@ class Square extends React.Component {
             onClick={this.handleClick.bind(this, 1)}
           />
         </svg>
-        <div className="rotateLeft" onClick={this.rotateSquare.bind(this, -1)}>
-          <i className="fa fa-chevron-left"></i>
-        </div>
-        <div className="rotateRight" onClick={this.rotateSquare.bind(this, 1)}>
-          <i className="fa fa-chevron-right"></i>
+        <div className="rotateWrap" style={{width: size}}>
+          <div className="rotateLeft" onClick={this.rotateSquare.bind(this, -1)}>
+            <i className="fa fa-chevron-left"></i>
+          </div>
+          <div className="rotateRight" onClick={this.rotateSquare.bind(this, 1)}>
+            <i className="fa fa-chevron-right"></i>
+          </div>
         </div>
       </div>
 

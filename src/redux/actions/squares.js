@@ -1,5 +1,6 @@
 import uuid from 'uuid';
 import * as actionTypes from '../../constants/actionTypes';
+import * as squareTypes from '../../constants/squareTypes';
 import { isV4 } from '../../helpers';
 
 
@@ -9,7 +10,7 @@ function createSquare() {
     payload: {
       id: uuid.v4(),
       type: "SQUARE",
-      fabrics: [0],
+      fabricIds: squareTypes.DEFAULT_FABRICS,
       rotation: 0
     },
   };

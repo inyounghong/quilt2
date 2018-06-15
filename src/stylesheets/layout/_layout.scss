@@ -5,31 +5,17 @@
 
 }
 
-.container {
-    padding: 20px 50px;
+.sidebar {
+  width: 400px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #eee;
+  height: 100%;
+  padding: 50px 30px;
 }
 
-.tab-wrap {
-    text-align: center;
-
-    .tab {
-        display: inline-block;
-        padding: 5px 10px;
-        margin: 5px;
-        border-radius: 3px;
-        cursor: pointer;
-
-        &:hover {
-            background: #ddd;
-        }
-
-        &.active {
-            background: $todo;
-            color: #fff;
-        }
-    }
-
-    i {
-        margin-right: 5px;
-    }
+.main {
+  margin-left: 400px;
+  padding: 20px;
 }
