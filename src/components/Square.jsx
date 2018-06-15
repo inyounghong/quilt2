@@ -8,15 +8,16 @@ class Square extends React.Component {
   }
 
   handleClick(index) {
-    const {selectedFabric, square} = this.props;
-    if (selectedFabric == null) {
+    console.log("clik", index);
+    const {selectedFabricId, square} = this.props;
+    if (selectedFabricId == null) {
       return;
     }
-    const newFabrics = square.fabrics;
-    newFabrics[index] = selectedFabric;
+    const newFabricIds = square.fabricIds.slice();
+    newFabricIds[index] = selectedFabricId;
     const updatedSquare = {
       ...this.props.square,
-      fabrics: newFabrics,
+      fabricIds: newFabricIds,
     }
     this.props.updateSquare(updatedSquare);
   }
@@ -28,10 +29,15 @@ class Square extends React.Component {
     this.props.rotateSquare(square.id, rotation);
   }
 
+  getColorFromFabricId(fabricId){
+    const fabric = this.props.fabrics.find(fabric => fabric.id == fabricId);
+    return fabric.color;
+  }
+
   render() {
     const {col, fabrics, square} = this.props;
-    const color0 = fabrics.find(fabric => fabric.id == square.fabrics[0]).color;
-    const color1 = fabrics.find(fabric => fabric.id == square.fabrics[1]).color;
+    const color0 = this.getColorFromFabricId(square.fabricIds[0])
+    const color1 = this.getColorFromFabricId(square.fabricIds[1])
 
     const rotations = [
       ["0,0 0,100 100,0", "100,100 0,100 100,0"],

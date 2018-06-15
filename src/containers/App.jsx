@@ -5,7 +5,7 @@ import appActions from '../redux/actions/app';
 import { connect } from 'react-redux';
 import List from '../components/List.jsx';
 import Quilt from '../containers/Quilt.jsx';
-import FabricBar from '../components/FabricBar.jsx';
+import FabricBar from '../containers/FabricBar.jsx';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -16,10 +16,10 @@ class App extends React.Component {
   constructor() {
     super();
     this.handleToggleView = this.handleToggleView.bind(this);
-    this.setSelectedFabric = this.setSelectedFabric.bind(this);
+    this.setSelectedFabricId = this.setSelectedFabricId.bind(this);
     this.handleAddRow = this.handleAddRow.bind(this);
     this.state = {
-      selectedFabric: null,
+      selectedFabricIdId: null,
     }
   }
 
@@ -27,8 +27,8 @@ class App extends React.Component {
     this.props.handleToggleView(!this.props.app.isColumnView);
   }
 
-  setSelectedFabric(fabricId) {
-    this.setState({selectedFabric: fabricId});
+  setSelectedFabricId(fabricId) {
+    this.setState({selectedFabricId: fabricId});
   }
 
   handleAddRow() {
@@ -58,14 +58,14 @@ class App extends React.Component {
 
         <FabricBar
           fabrics={this.props.fabric}
-          setSelectedFabric={this.setSelectedFabric}
-          selectedFabric={this.state.selectedFabric}/>
-        Selected Fabric: {this.state.selectedFabric}
+          setSelectedFabricId={this.setSelectedFabricId}
+          selectedFabricId={this.state.selectedFabricId}/>
+        Selected Fabric Id: {this.state.selectedFabricId}
 
         <Quilt quilt={this.props.quilt}
           squares={this.props.squares}
           fabrics={this.props.fabric}
-          selectedFabric={this.state.selectedFabric}/>
+          selectedFabricId={this.state.selectedFabricId}/>
 
 
 

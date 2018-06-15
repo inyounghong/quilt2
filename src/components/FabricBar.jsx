@@ -7,20 +7,29 @@ class FabricBar extends React.Component {
     super(props);
   }
 
+  handleAddFabric() {
+    const color = "purple";
+    this.props.addFabric(color);
+  }
+
   render() {
-    const fabrics = this.props.fabrics.map(fabric => {
+    const {fabrics, selectedFabricId} = this.props;
+    const fabricSquares = fabrics.map(fabric => {
       return (
         <Fabric
           fabric={fabric}
-          setSelectedFabric={this.props.setSelectedFabric}
-          selectedFabric={this.props.selectedFabric}
+          isSelected={fabric.id == selectedFabricId}
+          setSelectedFabricId={this.props.setSelectedFabricId}
         />
       )
     })
 
     return (
       <div className="fabricBar">
-        {fabrics}
+        {fabricSquares}
+        <button type="button"
+          className="btn btn-primary addFabric"
+          onClick={this.handleAddFabric.bind(this)}>addFabric</button>
       </div>
     );
   }

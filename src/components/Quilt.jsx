@@ -16,22 +16,22 @@ class Quilt extends Component {
   }
 
   render() {
-    const {quilt, fabrics, squares} = this.props;
+    const {quilt, fabrics, squares, selectedFabricId} = this.props;
     const cols = quilt[0].length;
     const fullQuilt = quilt.map((arr, i) => {
       const row = arr.map((squareId, j) => {
         const square = squares.find(square => square.id == squareId);
-        if (!square) { return; }
-        const fabric = fabrics.find(fabric => fabric.id == square.fabrics[0]);
-        if (!fabric) { return; }
+        if (!square) {
+          console.log("Cannot find square");
+          return;
+        }
         return (
           <Square key={i*cols+j}
             col={j}
             square={square}
-            color={fabric.color}
             onClick={this.handleClickOnSquare(square)}
-            fabrics={this.props.fabrics}
-            selectedFabric={this.props.selectedFabric}
+            fabrics={fabrics}
+            selectedFabricId={selectedFabricId}
           />
         )
       });

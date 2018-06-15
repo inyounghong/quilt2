@@ -7,27 +7,25 @@ class Fabric extends Component {
     this.state = {
 
     };
-    this.handleFocus = this.handleFocus.bind(this);
   }
 
-
-  handleFocus() {
-    this.props.setSelectedFabric(this.props.fabric.id);
+  handleFocus(fabricId) {
+    this.props.setSelectedFabricId(fabricId);
   }
 
   render() {
-    const fabric = this.props.fabric;
+    const {fabric, isSelected} = this.props;
     const style = {
       background: fabric.color,
     }
-    const className = "fabric" + (this.props.selectedFabric == fabric.id ? " selected" : "");
+
     return (
       <div className="fabricWrap">
         <div
-          className={className}
+          className={"fabric" + (isSelected ? " selected" : "")}
           style={style}
           value={fabric.id}
-          onClick={this.handleFocus}
+          onClick={this.handleFocus.bind(this, fabric.id)}
         />
         <div className="fabricMenu">
           Change Color
