@@ -1,6 +1,5 @@
 import FabricBar from '../components/FabricBar.jsx';
 import fabricActions from '../redux/actions/fabric';
-import * as itemTypes from '../constants/itemTypes';
 import { connect } from 'react-redux';
 
 

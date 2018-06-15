@@ -1,6 +1,5 @@
 import * as actionTypes from '../../constants/actionTypes';
 import * as squareTypes from '../../constants/squareTypes';
-import itemTypes from '../../constants/itemTypes';
 import uuid from 'uuid';
 import update from 'react-addons-update';
 

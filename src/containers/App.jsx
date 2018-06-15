@@ -3,7 +3,6 @@ import squaresActions from '../redux/actions/squares';
 import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
 import { connect } from 'react-redux';
-import List from '../components/List.jsx';
 import Quilt from '../containers/Quilt.jsx';
 import FabricBar from '../containers/FabricBar.jsx';
 import { DropdownButton, MenuItem } from 'react-bootstrap';

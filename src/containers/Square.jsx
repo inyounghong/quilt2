@@ -1,6 +1,5 @@
 import Square from '../components/Square.jsx';
 import squaresActions from '../redux/actions/squares';
-import * as itemTypes from '../constants/itemTypes';
 import { connect } from 'react-redux';
 
 
