@@ -1,3 +1,7 @@
+# WIP
+
+App work in progress...
+
 # Installation
 `npm install`
 
