@@ -1,4 +1,5 @@
 import * as actionTypes from '../../constants/actionTypes';
+import * as squareTypes from '../../constants/squareTypes';
 import uuid from 'uuid';
 import update from 'react-addons-update';
 
@@ -50,6 +51,10 @@ export default function quilt(state = defaultState, action) {
       //   newState.push(newRow);
       // }
       // return newState;
+
+    case actionTypes.FLYING_GEESE:
+
+
 
     case actionTypes.REMOVE_ROW:
       const index = action.payload;

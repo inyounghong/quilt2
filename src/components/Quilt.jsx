@@ -9,7 +9,7 @@ class Quilt extends Component {
     this.state = {
     }
     this.handleClickOnSquare = this.handleClickOnSquare.bind(this);
-    this.HEIGHT = 600;
+    this.HEIGHT = 550;
     this.WIDTH = 800;
   }
 
@@ -20,26 +20,24 @@ class Quilt extends Component {
   // Returns rotation list with given size
   generateRotations(size) {
     const tl = `0,0 0,${size} ${size},0`;
-    const bl = `${size},${size} 0,${size} ${size},0`;
+    const br = `${size},${size} 0,${size} ${size},0`;
     const tr = `0,0 ${size},${size} ${size},0`;
-    const br = `0,0 ${size},${size} 0,${size}`
+    const bl = `0,0 ${size},${size} 0,${size}`
     return [
-      [tl, bl],
-      [tr, br],
-      [bl, tl],
-      [br, tr],
+      [tl, br],
+      [tr, bl],
+      [br, tl],
+      [bl, tr],
     ];
   }
 
   calculateSize(rows, cols) {
-    console.log("Calculating size based on rows and cols:", rows, cols, this.HEIGHT);
-
     return Math.min(this.HEIGHT/rows, this.WIDTH/cols);
   }
 
   render() {
     const {quilt, fabrics, squares, selectedFabricId} = this.props;
-    console.log(quilt);
+
     const rows = quilt.length;
     const cols = quilt[0] ? quilt[0].length : 0;
     const size = this.calculateSize(rows, cols); // Determine square size

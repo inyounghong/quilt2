@@ -14,7 +14,7 @@ class Square extends React.Component {
     if (selectedFabricId == null) {
       return;
     }
-    const newFabricIds = square.fabricIds.slice();
+    const newFabricIds = square.fabricIds.slice(0);
     newFabricIds[index] = selectedFabricId;
     const updatedSquare = {
       ...this.props.square,
@@ -38,6 +38,7 @@ class Square extends React.Component {
 
 
   render() {
+
     const {col, fabrics, square, rotations, size} = this.props;
     const color0 = this.getColorFromFabricId(square.fabricIds[0])
     const color1 = this.getColorFromFabricId(square.fabricIds[1])

@@ -1,5 +1,7 @@
 import SizeBar from '../components/SizeBar.jsx';
 import appActions from '../redux/actions/app';
+import quiltActions from '../redux/actions/quilt';
+import * as squareTypes from '../constants/squareTypes';
 import { connect } from 'react-redux';
 
 
@@ -10,6 +12,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   // updateRows(rows) {
   //   dispatch(appActions.updateRows(rows))
+  // }
+
+  // changePattern(pattern) {
+  //   dispatch(quiltActions.changePattern(pattern))
   // }
 
   // // Stories

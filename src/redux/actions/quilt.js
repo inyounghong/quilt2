@@ -1,4 +1,5 @@
 import * as actionTypes from '../../constants/actionTypes';
+import * as squareTypes from '../../constants/squareTypes';
 
 function addRow(row, option) {
   return {
@@ -11,13 +12,19 @@ function addRow(row, option) {
 }
 
 function addCol(col, option) {
-  console.log(col);
   return {
     type: actionTypes.ADD_COL,
     payload: {
       col: col,
       colOption: option,
     }
+  }
+}
+
+function changePattern(pattern) {
+  return {
+    type: actionType.FLYING_GEESE,
+    payload: pattern,
   }
 }
 
@@ -38,6 +45,7 @@ function removeCol(index) {
 export default {
   addRow,
   addCol,
+  changePattern,
   removeRow,
   removeCol,
 };

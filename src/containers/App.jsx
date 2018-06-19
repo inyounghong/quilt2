@@ -3,10 +3,12 @@ import squaresActions from '../redux/actions/squares';
 import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
 import { connect } from 'react-redux';
+import Block from '../components/Block.jsx';
 import Quilt from '../containers/Quilt.jsx';
 import FabricBar from '../containers/FabricBar.jsx';
 import SizeBar from '../containers/SizeBar.jsx';
 import { MenuItem, Button } from 'react-bootstrap';
+import * as squareTypes from '../constants/squareTypes';
 
 class App extends React.Component {
 
@@ -17,10 +19,12 @@ class App extends React.Component {
     this.addCol = this.addCol.bind(this);
     this.removeRow = this.removeRow.bind(this);
     this.removeCol = this.removeCol.bind(this);
+    this.handleSizeChange = this.handleSizeChange.bind(this);
     this.state = {
       selectedFabricId: null,
       rows: 0,
       cols: 0,
+      squareSize: 6,
     }
 
   }
@@ -46,7 +50,6 @@ class App extends React.Component {
       const newSquare = this.props.addSquare();
       newSquareIds.push(newSquare.payload.id);
     }
-    console.log("adding row ", newSquareIds);
     this.props.addRowToQuilt(newSquareIds, option);
   }
 
@@ -63,7 +66,6 @@ class App extends React.Component {
 
   generateInitialQuilt() {
     const {rows, cols} = this.state;
-    console.log("Generating quilt with rows and cols", rows, cols);
     for (var i = 0; i < rows; i++) {
       const newSquareIds = [];
       for (var j = 0; j < cols; j++) {
@@ -74,6 +76,8 @@ class App extends React.Component {
     }
   }
 
+  // Handling change functions
+
   handleRowsChange(e) {
     this.setState({rows: parseInt(e.target.value)});
   }
@@ -82,22 +86,66 @@ class App extends React.Component {
     this.setState({cols: parseInt(e.target.value)});
   }
 
+  handleSizeChange(e) {
+    this.setState({squareSize: parseInt(e.target.value)});
+  }
+
+  toFeet(inches) {
+    const feet = Math.floor(inches/12);
+    const inch = inches % 12;
+    return `${feet}' ${inch}''`;
+  }
+
+  changePattern(pattern) {
+    if (pattern == squareTypes.FLYING_GEESE) {
+      console.log("Changing to", pattern);
+      let rotation = 0;
+      const {quilt} = this.props;
+      quilt.forEach((row, r) => {
+        row.forEach((squareId, c) => {
+          rotation = (c % 4 == 0 || c % 4 == 3) ? 1 : 0;
+          this.props.rotateSquare(squareId, rotation);
+          // Change colors of odd squares
+          if (r % 2 == 1) {
+            const square = this.props.squares.find(square => square.id == squareId);
+            const newColors = square.fabricIds.slice();
+            const newSquare = Object.assign({}, square, {fabricIds: newColors.reverse()});
+            this.props.updateSquare(newSquare);
+          }
+        })
+      })
+    }
+  }
+
   renderQuiltOptions() {
     // this.props.onReset();
-    console.log(this.state);
-    if (this.props.quilt.length > 0) {
-      const rows = this.props.quilt.length;
-      const cols = this.props.quilt[0].length;
+    const { quilt } = this.props;
+
+    if (quilt.length > 0) {
+      const rows = quilt.length;
+      const cols = quilt[0].length;
+      const sizeAcross = this.toFeet(this.state.squareSize * rows);
+      const sizeDown = this.toFeet(this.state.squareSize * cols);
 
       return (
         <div className="quiltOptions">
           <p>{rows} Rows x {cols} Columns</p>
+
+          Square Size:
+          <input
+            type="text"
+            value={this.state.squareSize}
+            onChange={this.handleSizeChange}/> inches
+
+          <p>Total Size: {sizeAcross} by  {sizeDown}</p>
+
 
           <SizeBar
             addRow={this.addRow}
             addCol={this.addCol}
             removeRow={this.removeRow}
             removeCol={this.removeCol}
+            changePattern={this.changePattern.bind(this)}
           />
 
           <FabricBar
@@ -128,6 +176,32 @@ class App extends React.Component {
   }
 
 
+  renderBlocks() {
+    const uniqueBlocks = {};
+    let key = "";
+    this.props.squares.forEach(square => {
+      const fabrics = square.fabricIds.slice();
+      fabrics.sort();
+      key = fabrics[0] + "," + fabrics[1];
+      uniqueBlocks[key] = uniqueBlocks[key] + 1 || 1;
+    })
+
+    const blocks = [];
+    for (var k in uniqueBlocks) {
+      const fabricIds = k.split(",");
+      const colors = fabricIds.map(id => {
+        const fabric = this.props.fabric.find(fabric => fabric.id == id);
+        return fabric.color;
+      });
+      blocks.push(<Block key={k} colors={colors} count={uniqueBlocks[k]}/>);
+    }
+    return (
+      <div className="blockCounts">
+        {blocks}
+      </div>
+    )
+  }
+
   render() {
     console.log(this.props);
 
@@ -136,6 +210,7 @@ class App extends React.Component {
         <div className="sidebar">
           {this.renderGenerateQuiltForm()}
           {this.renderQuiltOptions()}
+          {this.renderBlocks()}
         </div>
 
         <div className="main">
@@ -172,6 +247,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   updateRows(rows) {
     dispatch(appActions.updateRows(rows));
+  },
+  rotateSquare(squareId, rotation) {
+    dispatch(squaresActions.rotateSquare(squareId, rotation));
+  },
+  updateSquare(newSquare) {
+    dispatch(squaresActions.updateSquare(newSquare));
   },
 });
 
