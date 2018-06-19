@@ -1,18 +1,16 @@
 import * as actionTypes from '../../constants/actionTypes';
 
 const defaultState = {
-    isColumnView: true,
+    rows: 3,
+    cols: 3,
 }
 
 export default function app(state = defaultState, action) {
     switch (action.type) {
-        case actionTypes.SELECT_NOTE:
-            return action.payload;
-
-        case actionTypes.SET_IS_COLUMN_VIEW:
-            return Object.assign({}, state, {
-                isColumnView: action.payload,
-            });
+        case actionTypes.UPDATE_ROWS:
+          return Object.assign({}, state, {
+              rows: action.payload,
+          });
 
         default:
           return state;

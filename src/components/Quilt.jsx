@@ -39,8 +39,9 @@ class Quilt extends Component {
 
   render() {
     const {quilt, fabrics, squares, selectedFabricId} = this.props;
+    console.log(quilt);
     const rows = quilt.length;
-    const cols = quilt[0].length;
+    const cols = quilt[0] ? quilt[0].length : 0;
     const size = this.calculateSize(rows, cols); // Determine square size
     const rotations = this.generateRotations(size);
     const fullQuilt = quilt.map((arr, i) => {

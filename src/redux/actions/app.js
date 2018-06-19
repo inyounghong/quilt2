@@ -1,22 +1,14 @@
 import uuid from 'uuid';
 import * as actionTypes from '../../constants/actionTypes';
 
-function selectNote(noteId) {
+function updateRows(rows) {
   return {
-    type: actionTypes.SELECT_NOTE,
-    payload: noteId,
+    type: actionTypes.UPDATE_ROWS,
+    payload: rows,
   };
 }
 
-function setIsColumnView(isColumnView) {
-    console.log("setting to :" + isColumnView);
-    return {
-        type: actionTypes.SET_IS_COLUMN_VIEW,
-        payload: isColumnView,
-    }
-}
 
 export default {
-    selectNote,
-    setIsColumnView,
+    updateRows,
 };
