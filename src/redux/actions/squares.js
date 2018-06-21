@@ -3,6 +3,23 @@ import * as actionTypes from '../../constants/actionTypes';
 import * as squareTypes from '../../constants/squareTypes';
 import { isV4 } from '../../helpers';
 
+function addSquare(rotation) {
+  return {
+    type: actionTypes.ADD_SQUARE,
+    payload: {
+      id: uuid.v4(),
+      type: "SQUARE",
+      fabricIds: squareTypes.DEFAULT_FABRICS,
+      rotation: rotation
+    },
+  }
+}
+
+function clearSquares() {
+  return {
+    type: actionTypes.CLEAR_SQUARES,
+  }
+}
 
 function createSquare() {
   return {
@@ -35,6 +52,8 @@ function rotateSquare(squareId, rotation) {
 
 
 export default {
+  addSquare,
+  clearSquares,
   createSquare,
   updateSquare,
   rotateSquare,

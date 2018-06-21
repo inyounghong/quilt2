@@ -29,6 +29,12 @@ const defaultState = [];
 export default function squares(state = defaultState, action) {
 
     switch (action.type) {
+      case actionTypes.ADD_SQUARE:
+        return state.concat(action.payload);
+        
+      case actionTypes.CLEAR_SQUARES:
+        return [];
+
       case actionTypes.CREATE_SQUARE:
         return state.concat(action.payload);
 

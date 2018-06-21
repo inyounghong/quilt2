@@ -20,6 +20,13 @@
     }
   }
 
+  .rotation {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+
+  }
+
   .rotateWrap {
     display: none;
     position: absolute;

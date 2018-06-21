@@ -23,8 +23,14 @@ function addCol(col, option) {
 
 function changePattern(pattern) {
   return {
-    type: actionType.FLYING_GEESE,
+    type: actionTypes.FLYING_GEESE,
     payload: pattern,
+  }
+}
+
+function clearQuilt() {
+  return {
+    type: actionTypes.CLEAR_QUILT,
   }
 }
 
@@ -46,6 +52,7 @@ export default {
   addRow,
   addCol,
   changePattern,
+  clearQuilt,
   removeRow,
   removeCol,
 };

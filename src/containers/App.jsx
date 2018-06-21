@@ -4,10 +4,11 @@ import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
 import { connect } from 'react-redux';
 import Block from '../components/Block.jsx';
-import Quilt from '../containers/Quilt.jsx';
+import Quilt from '../components/Quilt.jsx';
 import FabricBar from '../containers/FabricBar.jsx';
 import SizeBar from '../containers/SizeBar.jsx';
-import { MenuItem, Button } from 'react-bootstrap';
+import QuiltForm from '../containers/QuiltForm.jsx';
+import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import * as squareTypes from '../constants/squareTypes';
 
 class App extends React.Component {
@@ -117,6 +118,8 @@ class App extends React.Component {
     }
   }
 
+
+
   renderQuiltOptions() {
     // this.props.onReset();
     const { quilt } = this.props;
@@ -131,11 +134,7 @@ class App extends React.Component {
         <div className="quiltOptions">
           <p>{rows} Rows x {cols} Columns</p>
 
-          Square Size:
-          <input
-            type="text"
-            value={this.state.squareSize}
-            onChange={this.handleSizeChange}/> inches
+
 
           <p>Total Size: {sizeAcross} by  {sizeDown}</p>
 
@@ -162,18 +161,8 @@ class App extends React.Component {
     }
   }
 
-  renderGenerateQuiltForm() {
-    if (this.props.quilt.length == 0) {
-      return (
-        <div>
-          Quilt Size:
-          <label>Rows <input type="text" value={this.state.rows} onChange={this.handleRowsChange.bind(this)} /></label>
-          <label>Cols <input type="text" value={this.state.cols} onChange={this.handleColsChange.bind(this)} /></label>
-          <Button onClick={this.generateInitialQuilt.bind(this)}>Generate Quilt</Button>
-        </div>
-      )
-    }
-  }
+  // <label>Rows <input type="text" value={this.state.rows} onChange={this.handleRowsChange.bind(this)} /></label>
+  // <label>Cols <input type="text" value={this.state.cols} onChange={this.handleColsChange.bind(this)} /></label>
 
 
   renderBlocks() {
@@ -208,7 +197,7 @@ class App extends React.Component {
     return (
       <div>
         <div className="sidebar">
-          {this.renderGenerateQuiltForm()}
+          <QuiltForm addSquare={this.props.addSquare}/>
           {this.renderQuiltOptions()}
           {this.renderBlocks()}
         </div>

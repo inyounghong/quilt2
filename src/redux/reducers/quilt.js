@@ -52,6 +52,9 @@ export default function quilt(state = defaultState, action) {
       // }
       // return newState;
 
+    case actionTypes.CLEAR_QUILT:
+      return [];
+    
     case actionTypes.FLYING_GEESE:
 
 

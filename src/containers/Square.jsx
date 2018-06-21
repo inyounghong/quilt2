@@ -60,6 +60,7 @@ class Square extends React.Component {
             onClick={this.handleClick.bind(this, 1)}
           />
         </svg>
+        <div className="rotation">{r}</div>
         <div className="rotateWrap" style={{width: size}}>
           <div className="rotateLeft" onClick={this.rotateSquare.bind(this, -1)}>
             <i className="fa fa-chevron-left"></i>
