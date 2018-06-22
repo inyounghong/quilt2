@@ -10,7 +10,14 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addFabric(color) {
     dispatch(fabricActions.addFabric(color));
-  }
+  },
+  updateFabric(fabricId, color) {
+    const newFabric = {
+      id: fabricId,
+      color: color,
+    }
+    dispatch(fabricActions.updateFabric(newFabric))
+  },
   // updateFabrics(square) {
   //   dispatch(squaresActions.updateFabrics(square));
   // },

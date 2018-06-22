@@ -9,10 +9,11 @@ class QuiltForm extends Component {
       quiltSize: 'TWIN',
       blockSize: '12',
       pattern: 'NONE',
+      numColors: '4',
+      coloring: 'RANDOM',
     }
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.quiltSizes = {
       'TWIN': [90,70],
@@ -42,36 +43,65 @@ class QuiltForm extends Component {
         [3,2,2,2],
       ]
     }
-    // this.calculateQuilt();
+    this.colorPalette = [
+      ['#556270', '#4ECDC4', '#C7F464', '#FF6B6B', '#C44D58'],
+    ]
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+
+    this.generateQuilt({ [e.target.name]: e.target.value });
+
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    // Calculate width and height
-    const {quiltSize, blockSize} = this.state;
-    if (blockSize == 0) return;
+
+  getRandomColors(numColors) {
+    let n1 = Math.floor(Math.random() * numColors);
+    let n2 = Math.floor(Math.random() * numColors);
+    const r = (this.state.coloring == 'NO_BLOCKS') ? 0 : 0.3;
+    if (n1 == n2 && Math.random() > r) {
+      n2 = (n2 + 1) % (numColors);
+    }
+    return [n1, n2];
+  }
+
+  generateSquares(state) {
+    // Calculate quilt size
+    const {quiltSize, blockSize, coloring, numColors} = state;
     const rows = Math.round(this.quiltSizes[quiltSize][0]/blockSize);
     const cols = Math.round(this.quiltSizes[quiltSize][1]/blockSize);
-    const totalSize = [rows*blockSize, cols*blockSize];
-    this.generateInitialQuilt(rows, cols);
-  }
 
-  generateInitialQuilt(rows, cols) {
-    this.props.clearQuilt();
-    const pattern = this.patterns[this.state.pattern];
+    // Get pattern
+    const pattern = this.patterns[state.pattern];
+
+    // Generate squares
     for (var i = 0; i < rows; i++) {
       const newSquareIds = [];
       for (var j = 0; j < cols; j++) {
-        const rotation = pattern[i%pattern.length][j%pattern[0].length];
-        const newSquare = this.props.addSquare(rotation);
+        const rotation = pattern[i%pattern.length][j%pattern[0].length]; // Get rotation
+        let fabrics = [0,1];
+        if (coloring != "STANDARD") {
+          fabrics = this.getRandomColors(parseInt(numColors)); // Get random color
+        }
+        const newSquare = this.props.addSquare(rotation, fabrics);
         newSquareIds.push(newSquare.payload.id);
       }
       this.props.addRowToQuilt(newSquareIds, 0);
     }
+  }
+
+  generateQuilt(updatedState) {
+    const state = Object.assign({}, this.state, updatedState);
+    if (state.blockSize == 0) return; // Quit if blocksize is invalid (0)
+
+    // Generate squares
+    this.props.clearQuilt();
+    this.generateSquares(state);
+
+    // Set random color palette
+    const p = Math.floor(Math.random() * this.colorPalette.length);
+    this.props.updateColorPalette(this.colorPalette[p]);
   }
 
   render() {
@@ -85,7 +115,8 @@ class QuiltForm extends Component {
             Quilt Size
           </Col>
           <Col sm={8}>
-            <FormControl componentClass="select" placeholder="select" name="quiltSize" onChange={this.handleChange}>
+            <FormControl componentClass="select" placeholder="select" name="quiltSize" defaultValue={this.state.quiltSize}
+              onChange={this.handleChange}>
               <option value="TWIN">Twin 70"x90"</option>
             </FormControl>
           </Col>
@@ -106,7 +137,8 @@ class QuiltForm extends Component {
             Pattern
           </Col>
           <Col sm={8}>
-            <FormControl componentClass="select" placeholder="select" name="pattern" onChange={this.handleChange}>
+            <FormControl componentClass="select" placeholder="select" name="pattern" defaultValue={this.state.pattern}
+              onChange={this.handleChange}>
               <option value="NONE">None</option>
               <option value="ALTERNATING">Alternating Blocks</option>
               <option value="FLYING_GEESE">Flying Geese</option>
@@ -122,7 +154,8 @@ class QuiltForm extends Component {
             Colors
           </Col>
           <Col sm={8}>
-            <FormControl componentClass="select" placeholder="select" name="colors" onChange={this.handleChange}>
+            <FormControl componentClass="select" placeholder="select" name="numColors" defaultValue={this.state.numColors}
+              onChange={this.handleChange}>
               <option value="2">Two Colors</option>
               <option value="3">Three Colors</option>
               <option value="4">Four Colors</option>
@@ -135,17 +168,16 @@ class QuiltForm extends Component {
             Coloring
           </Col>
           <Col sm={8}>
-            <FormControl componentClass="select" placeholder="select" name="coloring" onChange={this.handleChange}>
-              <option value="Standard">Standard</option>
-              <option value="Random">Random</option>
+            <FormControl componentClass="select" placeholder="select" name="coloring" defaultValue={this.state.coloring}
+              onChange={this.handleChange}>
+              <option value="STANDARD">Standard</option>
+              <option value="RANDOM">Random</option>
+              <option value="NO_BLOCKS">Random with no solid blocks</option>
             </FormControl>
           </Col>
         </FormGroup>
 
-        <Button type="submit" onClick={this.handleSubmit}>Submit</Button>
       </Form>
-
-
     )
   }
 }

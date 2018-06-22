@@ -4,15 +4,15 @@ import update from 'react-addons-update';
 
 const defaultState = [
   {
-    id: "36fe06e8-ecc1-4218-ace2-d441da577f8a",
-    color: "red",
+    id: 0,
+    color: "7bdcb5",
   },
   {
-    id: "96ca2518-b3aa-4761-8a80-d98d2441488a",
-    color: "green",
+    id: 1,
+    color: "fcb900",
   },
   {
-    id: "5dbf5ca8-dfe6-43f8-a359-484735754445",
+    id: 2,
     color: "blue",
   }
 
@@ -23,6 +23,20 @@ export default function fabrics(state = defaultState, action) {
     switch (action.type) {
       case actionTypes.ADD_FABRIC:
         return state.concat(action.payload);
+
+      case actionTypes.UPDATE_FABRIC:
+        let newState = state.slice();
+        newState[action.payload.id] = action.payload;
+        return newState;
+
+      case actionTypes.UPDATE_COLOR_PALETTE:
+        const palette = action.payload;
+        return palette.map((color,i) => {
+          return {
+            id: i,
+            color: color
+          }
+        });
         // case actionTypes.CREATE_TASK:
         //     return state.concat(action.payload);
         //

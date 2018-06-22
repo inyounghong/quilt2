@@ -20,9 +20,17 @@ function updateFabric(updatedFabric) {
   };
 }
 
+function updateColorPalette(palette) {
+  return {
+    type: actionTypes.UPDATE_COLOR_PALETTE,
+    payload: palette,
+  };
+}
+
 
 
 export default {
   addFabric,
   updateFabric,
+  updateColorPalette
 };

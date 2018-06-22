@@ -50,7 +50,8 @@ class Quilt extends Component {
           return;
         }
         return (
-          <Square key={i*cols+j}
+          <Square
+            key={i*cols+j}
             col={j}
             square={square}
             onClick={this.handleClickOnSquare(square)}
@@ -62,7 +63,7 @@ class Quilt extends Component {
         )
       });
       return (
-        <div className="quiltRow" style={{height: size}}>
+        <div className="quiltRow" style={{height: size}} key={i}>
           {row}
         </div>
       )

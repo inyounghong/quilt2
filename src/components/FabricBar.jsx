@@ -12,14 +12,17 @@ class FabricBar extends React.Component {
     this.props.addFabric(color);
   }
 
+
   render() {
     const {fabrics, selectedFabricId} = this.props;
     const fabricSquares = fabrics.map(fabric => {
       return (
         <Fabric
           fabric={fabric}
+          key={fabric.id}
           isSelected={fabric.id == selectedFabricId}
           setSelectedFabricId={this.props.setSelectedFabricId}
+          updateFabric={this.props.updateFabric}
         />
       )
     })

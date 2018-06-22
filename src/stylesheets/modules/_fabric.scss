@@ -1,6 +1,10 @@
 .fabricWrap {
   display: inline-block;
   margin: 5px;
+
+  .twitter-picker {
+    position: absolute!important;
+  }
 }
 
 .fabric {
@@ -19,4 +23,6 @@
   &.selected {
     border: 5px solid #aaa;
   }
+
+
 }

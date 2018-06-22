@@ -3,13 +3,13 @@ import * as actionTypes from '../../constants/actionTypes';
 import * as squareTypes from '../../constants/squareTypes';
 import { isV4 } from '../../helpers';
 
-function addSquare(rotation) {
+function addSquare(rotation, colors) {
   return {
     type: actionTypes.ADD_SQUARE,
     payload: {
       id: uuid.v4(),
       type: "SQUARE",
-      fabricIds: squareTypes.DEFAULT_FABRICS,
+      fabricIds: colors,
       rotation: rotation
     },
   }

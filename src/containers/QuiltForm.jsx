@@ -10,8 +10,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
 
-  addSquare(rotation) {
-    const newSquare = squaresActions.addSquare(rotation);
+  addSquare(rotation, colors) {
+    const newSquare = squaresActions.addSquare(rotation, colors);
     dispatch(newSquare);
     return newSquare;
   },

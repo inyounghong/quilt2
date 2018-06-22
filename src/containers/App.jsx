@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import squaresActions from '../redux/actions/squares';
 import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
+import fabricActions from '../redux/actions/fabric';
 import { connect } from 'react-redux';
 import Block from '../components/Block.jsx';
 import Quilt from '../components/Quilt.jsx';
@@ -26,6 +27,7 @@ class App extends React.Component {
       rows: 0,
       cols: 0,
       squareSize: 6,
+      numColors: 2,
     }
 
   }
@@ -134,18 +136,16 @@ class App extends React.Component {
         <div className="quiltOptions">
           <p>{rows} Rows x {cols} Columns</p>
 
-
-
           <p>Total Size: {sizeAcross} by  {sizeDown}</p>
 
 
-          <SizeBar
+          {/* <SizeBar
             addRow={this.addRow}
             addCol={this.addCol}
             removeRow={this.removeRow}
             removeCol={this.removeCol}
             changePattern={this.changePattern.bind(this)}
-          />
+          /> */}
 
           <FabricBar
             fabrics={this.props.fabric}
@@ -197,7 +197,10 @@ class App extends React.Component {
     return (
       <div>
         <div className="sidebar">
-          <QuiltForm addSquare={this.props.addSquare}/>
+          <QuiltForm
+            addSquare={this.props.addSquare}
+            updateColorPalette={this.props.updateColorPalette}
+          />
           {this.renderQuiltOptions()}
           {this.renderBlocks()}
         </div>
@@ -233,6 +236,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   removeColFromQuilt(index) {
     dispatch(quiltActions.removeCol(index));
+  },
+  updateColorPalette(palette) {
+    dispatch(fabricActions.updateColorPalette(palette));
   },
   updateRows(rows) {
     dispatch(appActions.updateRows(rows));
