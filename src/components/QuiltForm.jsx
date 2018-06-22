@@ -35,7 +35,12 @@ class QuiltForm extends Component {
         [1,0,0,1],
         [3,2,2,3]
       ],
-
+      'FLYING_GEESE_SQUARE': [
+        [0,0,0,1],
+        [3,3,0,1],
+        [3,2,1,1],
+        [3,2,2,2],
+      ]
     }
     // this.calculateQuilt();
   }
@@ -46,25 +51,21 @@ class QuiltForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
     // Calculate width and height
     const {quiltSize, blockSize} = this.state;
     if (blockSize == 0) return;
     const rows = Math.round(this.quiltSizes[quiltSize][0]/blockSize);
     const cols = Math.round(this.quiltSizes[quiltSize][1]/blockSize);
     const totalSize = [rows*blockSize, cols*blockSize];
-
-    console.log(this.state.pattern);
     this.generateInitialQuilt(rows, cols);
   }
 
   generateInitialQuilt(rows, cols) {
     this.props.clearQuilt();
-    console.log("generating quilt with ", rows, cols);
+    const pattern = this.patterns[this.state.pattern];
     for (var i = 0; i < rows; i++) {
       const newSquareIds = [];
       for (var j = 0; j < cols; j++) {
-        const pattern = this.patterns[this.state.pattern];
         const rotation = pattern[i%pattern.length][j%pattern[0].length];
         const newSquare = this.props.addSquare(rotation);
         newSquareIds.push(newSquare.payload.id);
@@ -109,8 +110,34 @@ class QuiltForm extends Component {
               <option value="NONE">None</option>
               <option value="ALTERNATING">Alternating Blocks</option>
               <option value="FLYING_GEESE">Flying Geese</option>
+              <option value="FLYING_GEESE_SQUARE">Flying Geese Square</option>
               <option value="ARROWS">Arrows</option>
               <option value="ALTERNATING_ARROWS">Alternating Arrows</option>
+            </FormControl>
+          </Col>
+        </FormGroup>
+
+        <FormGroup>
+          <Col componentClass={ControlLabel} sm={4}>
+            Colors
+          </Col>
+          <Col sm={8}>
+            <FormControl componentClass="select" placeholder="select" name="colors" onChange={this.handleChange}>
+              <option value="2">Two Colors</option>
+              <option value="3">Three Colors</option>
+              <option value="4">Four Colors</option>
+            </FormControl>
+          </Col>
+        </FormGroup>
+
+        <FormGroup>
+          <Col componentClass={ControlLabel} sm={4}>
+            Coloring
+          </Col>
+          <Col sm={8}>
+            <FormControl componentClass="select" placeholder="select" name="coloring" onChange={this.handleChange}>
+              <option value="Standard">Standard</option>
+              <option value="Random">Random</option>
             </FormControl>
           </Col>
         </FormGroup>

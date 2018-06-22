@@ -68,6 +68,8 @@ class Quilt extends Component {
       )
     })
 
+    fullQuilt.reverse();
+
     return (
       <div className="quilt">
         {fullQuilt}
