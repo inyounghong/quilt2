@@ -93,12 +93,6 @@ class App extends React.Component {
     this.setState({squareSize: parseInt(e.target.value)});
   }
 
-  toFeet(inches) {
-    const feet = Math.floor(inches/12);
-    const inch = inches % 12;
-    return `${feet}' ${inch}''`;
-  }
-
   changePattern(pattern) {
     if (pattern == squareTypes.FLYING_GEESE) {
       console.log("Changing to", pattern);
@@ -127,16 +121,9 @@ class App extends React.Component {
     const { quilt } = this.props;
 
     if (quilt.length > 0) {
-      const rows = quilt.length;
-      const cols = quilt[0].length;
-      const sizeAcross = this.toFeet(this.state.squareSize * rows);
-      const sizeDown = this.toFeet(this.state.squareSize * cols);
 
       return (
         <div className="quiltOptions">
-          <p>{rows} Rows x {cols} Columns</p>
-
-          <p>Total Size: {sizeAcross} by  {sizeDown}</p>
 
 
           {/* <SizeBar
@@ -191,6 +178,7 @@ class App extends React.Component {
             squares={this.props.squares}
             fabrics={this.props.fabric}
             blockSize={this.props.app.blockSize}
+            quilt={this.props.quilt}
              />
         </div>
 

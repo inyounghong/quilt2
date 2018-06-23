@@ -20,7 +20,7 @@ class Block extends Component {
           style={{fill: colors[0]}}
         />)
       case 'HALF_SQUARE':
-        return (<div>
+        return (<React.Fragment>
           <polygon
                 points={`0,0 0,${this.SIZE} ${this.SIZE},0`}
                 style={{fill: colors[0]}}
@@ -28,7 +28,7 @@ class Block extends Component {
               <polygon
                 points={`${this.SIZE},${this.SIZE} 0,${this.SIZE} ${this.SIZE},0`}
                 style={{fill: colors[1]}} />
-            </div>)
+            </React.Fragment>)
       default:
         return null;
     }
@@ -42,11 +42,11 @@ class Block extends Component {
 
 
     return (
-      <div className="squareItem">
+      <div className="block">
         <svg height={this.SIZE} width={this.SIZE}>
           {polygon}
         </svg>
-        <p>{count}</p>
+        <div className="blockCount">{count}</div>
       </div>
     )
 

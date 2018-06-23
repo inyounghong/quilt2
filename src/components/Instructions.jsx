@@ -29,7 +29,8 @@ class Instructions extends Component {
     return counts;
   }
 
-  getMaterials(colorCounts, fabrics, blockSize) {
+  getMaterials(squares, fabrics, blockSize) {
+    const colorCounts = this.getColorCounts(squares);
     const squareList = Object.keys(colorCounts).map(k => {
       const squareCount = Math.floor(colorCounts[k]/2);
       if (squareCount == 0) return;
@@ -47,52 +48,60 @@ class Instructions extends Component {
     })
 
     return (
-      <div>
-        {squareList}
-        {triangleList}
-      </div>
+      <React.Fragment>
+        <div className="blockList">{squareList}</div>
+        <div className="blockList">{triangleList}</div>
+      </React.Fragment>
     )
   }
 
-//<svg height={this.SIZE} width={this.SIZE}>
-//   <polygon
-//     points={`0,0 0,${this.SIZE} ${this.SIZE},${this.SIZE}  `}
-//     style={{fill: fabrics[k].color}}
-//   />
-// </svg>{triangleCount} 2x2 triangles
-
-  render() {
-    const {squares, fabrics, blockSize} = this.props;
+  getBlocks(squares, fabrics) {
     const uniqueBlocks = this.getUniqueBlocks(squares);
-    const colorCounts = this.getColorCounts(squares);
-    console.log(colorCounts);
-
-
     const blocks = [];
     for (var k in uniqueBlocks) {
       const fabricIds = k.split(",");
       const colors = fabricIds.map(id => {
         const fabric = fabrics.find(fabric => fabric.id == id);
-        if (!fabric) {
-          return 0;
-        }
-        return fabric.color;
+        return (fabric) ? fabric.color : 0;
       });
       blocks.push(<Block type="HALF_SQUARE" key={k} colors={colors} count={uniqueBlocks[k]}/>);
     }
+    return blocks;
+  }
 
-    const materials = this.getMaterials(colorCounts, fabrics, blockSize);
+  toFeet(inches) {
+    const feet = Math.floor(inches/12);
+    const inch = inches % 12;
+    return `${feet}'${inch}''`;
+  }
+
+  render() {
+    const {squares, fabrics, blockSize, quilt} = this.props;
+
+    const materials = this.getMaterials(squares, fabrics, blockSize);
+    const blocks = this.getBlocks(squares, fabrics);
+
     const size1 = blockSize + 1 + 7/8;
     const size2 = blockSize + 1;
 
+    // Calculate quilt sizes
+    const rows = quilt.length;
+    const cols = quilt[0].length;
+    const sizeAcross = blockSize * cols;
+    const sizeDown = blockSize * rows;
+
     return (
-      <div className="blockCounts">
+      <div className="instructions">
         <h1>Instructions</h1>
-        <p>1. Cut the following {size1}-inch squares and triangles.</p>
+        <p>1. Cut the following <b>{size1}-inch</b> squares and triangles.</p>
         {materials}
 
-        <p>2. Sew into {size2}-inch half-square triangle blocks.</p>
-        {blocks}
+        <p>2. Sew into <b>{size2}-inch</b> half-square triangle blocks ({rows*cols} total).</p>
+        <div className="blockList">{blocks}</div>
+
+        <p>3. Sew into <b>{rows}</b> rows of <b>{cols}</b> blocks each. Each row should be <b>{sizeAcross} inches</b>,
+          for a total quilt size of <b>{sizeAcross} by {sizeDown} inches </b>
+           ({this.toFeet(sizeAcross)} by {this.toFeet(sizeDown)}).</p>
       </div>
     )
   }

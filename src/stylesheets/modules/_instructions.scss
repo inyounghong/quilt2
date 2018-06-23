@@ -1,20 +1,28 @@
-.blockCounts {
-  p {
-    margin-top: 25px;
+.blockList {
+  margin: 10px 0;
+
+  .blockCount {
+    min-width: 15px;
+    margin-left: 10px;
+  }
+
+  .block {
+    display: inline-block;
+    margin-right: 30px;
+
+    svg, .blockCount {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
   }
 }
 
-
-.squareItem {
-  display: inline-block;
-  margin-right: 20px;
-
-  svg, p {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
+.instructions {
+  margin-top: 50px;
+  padding: 0 20px;
+  
   p {
-    margin: 1px 10px 0;
+    margin: 25px 0 15px;
   }
 }
