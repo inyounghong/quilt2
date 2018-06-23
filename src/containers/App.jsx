@@ -4,8 +4,8 @@ import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
 import fabricActions from '../redux/actions/fabric';
 import { connect } from 'react-redux';
-import Block from '../components/Block.jsx';
 import Quilt from '../components/Quilt.jsx';
+import Instructions from '../components/Instructions.jsx';
 import FabricBar from '../containers/FabricBar.jsx';
 import SizeBar from '../containers/SizeBar.jsx';
 import QuiltForm from '../containers/QuiltForm.jsx';
@@ -165,31 +165,6 @@ class App extends React.Component {
   // <label>Cols <input type="text" value={this.state.cols} onChange={this.handleColsChange.bind(this)} /></label>
 
 
-  renderBlocks() {
-    const uniqueBlocks = {};
-    let key = "";
-    this.props.squares.forEach(square => {
-      const fabrics = square.fabricIds.slice();
-      fabrics.sort();
-      key = fabrics[0] + "," + fabrics[1];
-      uniqueBlocks[key] = uniqueBlocks[key] + 1 || 1;
-    })
-
-    const blocks = [];
-    for (var k in uniqueBlocks) {
-      const fabricIds = k.split(",");
-      const colors = fabricIds.map(id => {
-        const fabric = this.props.fabric.find(fabric => fabric.id == id);
-        return fabric.color;
-      });
-      blocks.push(<Block key={k} colors={colors} count={uniqueBlocks[k]}/>);
-    }
-    return (
-      <div className="blockCounts">
-        {blocks}
-      </div>
-    )
-  }
 
   render() {
     console.log(this.props);
@@ -200,9 +175,10 @@ class App extends React.Component {
           <QuiltForm
             addSquare={this.props.addSquare}
             updateColorPalette={this.props.updateColorPalette}
+            blockSize={this.props.app.blockSize}
           />
           {this.renderQuiltOptions()}
-          {this.renderBlocks()}
+
         </div>
 
         <div className="main">
@@ -210,6 +186,12 @@ class App extends React.Component {
             squares={this.props.squares}
             fabrics={this.props.fabric}
             selectedFabricId={this.state.selectedFabricId}/>
+
+          <Instructions
+            squares={this.props.squares}
+            fabrics={this.props.fabric}
+            blockSize={this.props.app.blockSize}
+             />
         </div>
 
       </div>

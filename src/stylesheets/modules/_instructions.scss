@@ -1,0 +1,20 @@
+.blockCounts {
+  p {
+    margin-top: 25px;
+  }
+}
+
+
+.squareItem {
+  display: inline-block;
+  margin-right: 20px;
+
+  svg, p {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  p {
+    margin: 1px 10px 0;
+  }
+}

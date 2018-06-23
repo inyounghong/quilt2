@@ -30,18 +30,13 @@ class Square extends React.Component {
     this.props.rotateSquare(square.id, rotation);
   }
 
-  getColorFromFabricId(fabricId){
-    const fabric = this.props.fabrics.find(fabric => fabric.id == fabricId);
-    return fabric.color;
-  }
-
 
 
   render() {
 
     const {col, fabrics, square, rotations, size} = this.props;
-    const color0 = this.getColorFromFabricId(square.fabricIds[0])
-    const color1 = this.getColorFromFabricId(square.fabricIds[1])
+    const color0 = fabrics[square.fabricIds[0]].color;
+    const color1 = fabrics[square.fabricIds[1]].color;
 
     const r = square.rotation;
     if (!rotations[r]) return null;

@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { TwitterPicker } from 'react-color';
+// import { TwitterPicker } from 'react-color';
 
 
 class Fabric extends Component {
@@ -43,9 +43,9 @@ class Fabric extends Component {
           Change Color
         </div>
         {background}
-        { displayColorPicker ? <TwitterPicker
+        {/* { displayColorPicker ? <TwitterPicker
           color={ this.state.background }
-          onChangeComplete={ this.handleChangeComplete }
+          onChangeComplete={ this.handleChangeComplete } */}
         /> : null }
 
       </div>

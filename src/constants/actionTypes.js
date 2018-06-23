@@ -5,6 +5,7 @@ export const REMOVE_ROW = 'REMOVE_ROW';
 export const REMOVE_COL = 'REMOVE_COL';
 
 export const CLEAR_QUILT = 'CLEAR_QUILT';
+export const SET_BLOCK_SIZE = 'SET_BLOCK_SIZE';
 
 // export const CHANGE_PATTERN = 'CHANGE_PATTERN';
 export const FLYING_GEESE = 'FLYING_GEESE';

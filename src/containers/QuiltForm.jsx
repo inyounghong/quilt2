@@ -1,4 +1,5 @@
 import QuiltForm from '../components/QuiltForm.jsx';
+import appActions from '../redux/actions/app';
 import quiltActions from '../redux/actions/quilt';
 import squaresActions from '../redux/actions/squares';
 import { connect } from 'react-redux';
@@ -21,7 +22,11 @@ const mapDispatchToProps = (dispatch) => ({
   clearQuilt() {
     dispatch(quiltActions.clearQuilt());
     dispatch(squaresActions.clearSquares());
-  }
+  },
+  setBlockSize(blockSize) {
+    // console.log("setting block size", blockSize);
+    dispatch(appActions.setBlockSize(blockSize));
+  },
 
 });
 export default connect(mapStateToProps, mapDispatchToProps)(

@@ -7,25 +7,64 @@ class Block extends Component {
     this.SIZE = 50;
   }
 
+  getPolygon(type, colors) {
+    switch(type) {
+      case 'SQUARE':
+        return (<polygon
+          points={`0,0 0,${this.SIZE} ${this.SIZE},${this.SIZE} ${this.SIZE},0 `}
+          style={{fill: colors[0]}}
+        />)
+      case 'TRIANGLE':
+        return (<polygon
+          points={`0,0 0,${this.SIZE} ${this.SIZE},${this.SIZE}`}
+          style={{fill: colors[0]}}
+        />)
+      case 'HALF_SQUARE':
+        return (<div>
+          <polygon
+                points={`0,0 0,${this.SIZE} ${this.SIZE},0`}
+                style={{fill: colors[0]}}
+              />
+              <polygon
+                points={`${this.SIZE},${this.SIZE} 0,${this.SIZE} ${this.SIZE},0`}
+                style={{fill: colors[1]}} />
+            </div>)
+      default:
+        return null;
+    }
+  }
+
 
   render() {
-    const {colors, count} = this.props;
+    const {type, colors, count} = this.props;
+
+    const polygon = this.getPolygon(type, colors);
+
 
     return (
-      <div className="block">
+      <div className="squareItem">
         <svg height={this.SIZE} width={this.SIZE}>
-          <polygon
-            points={`0,0 0,${this.SIZE} ${this.SIZE},0`}
-            style={{fill: colors[0]}}
-          />
-          <polygon
-            points={`${this.SIZE},${this.SIZE} 0,${this.SIZE} ${this.SIZE},0`}
-            style={{fill: colors[1]}}
-          />
+          {polygon}
         </svg>
-        <div className="count">{count}</div>
+        <p>{count}</p>
       </div>
-    );
+    )
+
+    // return (
+    //   <div className="block">
+    //     <svg height={this.SIZE} width={this.SIZE}>
+    //       <polygon
+    //         points={`0,0 0,${this.SIZE} ${this.SIZE},0`}
+    //         style={{fill: colors[0]}}
+    //       />
+    //       <polygon
+    //         points={`${this.SIZE},${this.SIZE} 0,${this.SIZE} ${this.SIZE},0`}
+    //         style={{fill: colors[1]}}
+    //       />
+    //     </svg>
+    //     <div className="count">{count}</div>
+    //   </div>
+    // );
   }
 }
 

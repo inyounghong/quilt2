@@ -8,7 +8,15 @@ function updateRows(rows) {
   };
 }
 
+function setBlockSize(blockSize) {
+  return {
+    type: actionTypes.SET_BLOCK_SIZE,
+    payload: blockSize,
+  }
+}
+
 
 export default {
     updateRows,
+    setBlockSize,
 };
