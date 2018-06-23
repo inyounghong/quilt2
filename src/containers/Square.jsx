@@ -30,7 +30,23 @@ class Square extends React.Component {
     this.props.rotateSquare(square.id, rotation);
   }
 
-
+  renderRotationOptions(allowRotation, r, size) {
+    if (allowRotation) {
+      return (
+        <React.Fragment>
+          <div className="rotation">{r}</div>
+            <div className="rotateWrap" style={{width: size}}>
+              <div className="rotateLeft" onClick={this.rotateSquare.bind(this, -1)}>
+                <i className="fa fa-chevron-left"></i>
+              </div>
+              <div className="rotateRight" onClick={this.rotateSquare.bind(this, 1)}>
+                <i className="fa fa-chevron-right"></i>
+              </div>
+            </div>
+          </React.Fragment>
+        )
+    }
+  }
 
   render() {
 
@@ -55,15 +71,8 @@ class Square extends React.Component {
             onClick={this.handleClick.bind(this, 1)}
           />
         </svg>
-        <div className="rotation">{r}</div>
-        <div className="rotateWrap" style={{width: size}}>
-          <div className="rotateLeft" onClick={this.rotateSquare.bind(this, -1)}>
-            <i className="fa fa-chevron-left"></i>
-          </div>
-          <div className="rotateRight" onClick={this.rotateSquare.bind(this, 1)}>
-            <i className="fa fa-chevron-right"></i>
-          </div>
-        </div>
+
+        {this.renderRotationOptions(this.props.allowRotation, r, size)}
       </div>
 
     );

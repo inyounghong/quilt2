@@ -1,20 +1,13 @@
 import React, { PropTypes, Component } from 'react';
 import Square from '../containers/Square.jsx';
-// import Quilt from '../containers/Quilt.jsx';
 
 class Quilt extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-    }
-    this.handleClickOnSquare = this.handleClickOnSquare.bind(this);
+    this.state = {}
     this.HEIGHT = 550;
     this.WIDTH = 800;
-  }
-
-  handleClickOnSquare() {
-
   }
 
   // Returns rotation list with given size
@@ -54,11 +47,11 @@ class Quilt extends Component {
             key={i*cols+j}
             col={j}
             square={square}
-            onClick={this.handleClickOnSquare(square)}
             fabrics={fabrics}
             selectedFabricId={selectedFabricId}
             rotations={rotations}
             size={size}
+            allowRotation={this.props.allowRotation}
           />
         )
       });

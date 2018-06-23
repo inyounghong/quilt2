@@ -1,12 +1,12 @@
 import React, { PropTypes, Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, Form, Col, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Form, Col, Button, Checkbox } from 'react-bootstrap';
 
 class QuiltForm extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      quiltSize: 'TWIN',
+      quiltSize: 'THROW',
       blockSize: this.props.blockSize,
       pattern: 'NONE',
       numColors: '4',
@@ -17,7 +17,11 @@ class QuiltForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.quiltSizes = {
-      'TWIN': [90,70],
+      'BABY': [30,40],
+      'CRIB': [36,52],
+      'THROW': [50,65],
+      'TWIN': [70,90],
+      'DOUBLE': [105,108],
     }
     this.patterns = {
       'NONE': [
@@ -44,10 +48,7 @@ class QuiltForm extends Component {
         [3,2,2,2],
       ]
     }
-    this.colorPalette = [
-      ['#556270', '#4ECDC4', '#C7F464', '#FF6B6B', '#C44D58'],
-      ['#490A3D', '#BD1550', '#E97F02', '#F8CA00', '#8A9B0F'],
-    ]
+    this.palettes = this.props.palettes;
   }
 
   handleChange(e) {
@@ -103,8 +104,8 @@ class QuiltForm extends Component {
   generateSquares(state) {
     // Calculate quilt size
     const {quiltSize, blockSize, coloring, numColors} = state;
-    state.rows = Math.round(this.quiltSizes[quiltSize][0]/blockSize);
-    state.cols = Math.round(this.quiltSizes[quiltSize][1]/blockSize);
+    state.rows = Math.round(this.quiltSizes[quiltSize][1]/blockSize);
+    state.cols = Math.round(this.quiltSizes[quiltSize][0]/blockSize);
 
     // Get pattern
     const pattern = this.patterns[state.pattern];
@@ -131,8 +132,22 @@ class QuiltForm extends Component {
     this.generateSquares(state);
 
     // Set random color palette
-    const p = Math.floor(Math.random() * this.colorPalette.length);
-    this.props.updateColorPalette(this.colorPalette[p]);
+    const p = Math.floor(Math.random() * this.palettes.length);
+    this.props.updateColorPalette(this.palettes[p]["palette"]);
+  }
+
+  capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+
+  getQuiltSizeOptions() {
+    return Object.keys(this.quiltSizes).map(name => {
+      const width = this.quiltSizes[name][0];
+      const height = this.quiltSizes[name][1];
+      return (
+        <option value={name} key={name}>{this.capitalize(name)} {width}"x{height}"</option>
+      )
+    })
   }
 
   render() {
@@ -148,7 +163,7 @@ class QuiltForm extends Component {
           <Col sm={8}>
             <FormControl componentClass="select" placeholder="select" name="quiltSize" defaultValue={this.state.quiltSize}
               onChange={this.handleChange}>
-              <option value="TWIN">Twin 70"x90"</option>
+              {this.getQuiltSizeOptions()}
             </FormControl>
           </Col>
         </FormGroup>

@@ -5,11 +5,12 @@ import appActions from '../redux/actions/app';
 import fabricActions from '../redux/actions/fabric';
 import { connect } from 'react-redux';
 import Quilt from '../components/Quilt.jsx';
+import PaletteMenu from '../components/PaletteMenu.jsx';
 import Instructions from '../components/Instructions.jsx';
 import FabricBar from '../containers/FabricBar.jsx';
 import SizeBar from '../containers/SizeBar.jsx';
 import QuiltForm from '../containers/QuiltForm.jsx';
-import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
+import { DropdownButton, MenuItem, Button, FormGroup, Checkbox, Col, ControlLabel, Form } from 'react-bootstrap';
 import * as squareTypes from '../constants/squareTypes';
 
 class App extends React.Component {
@@ -22,14 +23,19 @@ class App extends React.Component {
     this.removeRow = this.removeRow.bind(this);
     this.removeCol = this.removeCol.bind(this);
     this.handleSizeChange = this.handleSizeChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       selectedFabricId: null,
       rows: 0,
       cols: 0,
       squareSize: 6,
       numColors: 2,
+      allowRotation: false,
     }
+  }
 
+  handleChange(e) {
+    this.setState({ allowRotation: this.refs.allowRotation.checked });
   }
 
   setSelectedFabricId(fabricId) {
@@ -114,18 +120,14 @@ class App extends React.Component {
     }
   }
 
-
-
   renderQuiltOptions() {
     // this.props.onReset();
     const { quilt } = this.props;
+    console.log(this.state);
 
     if (quilt.length > 0) {
-
       return (
         <div className="quiltOptions">
-
-
           {/* <SizeBar
             addRow={this.addRow}
             addCol={this.addCol}
@@ -134,10 +136,33 @@ class App extends React.Component {
             changePattern={this.changePattern.bind(this)}
           /> */}
 
+          <Form horizontal>
+            <FormGroup>
+              <Col componentClass={ControlLabel} sm={4}>
+                Edit Options
+              </Col>
+              <Col sm={8}>
+                <label>
+                  <input type="checkbox" ref="allowRotation" onChange={this.handleChange}
+                    checked={this.state.allowRotation ? "checked" : ""}/>
+                    Allow Rotation
+                </label>
+              </Col>
+            </FormGroup>
+          </Form>
+
+          <PaletteMenu
+            fabrics={this.props.fabric}
+            palettes={this.props.palettes}
+            setSelectedFabricId={this.setSelectedFabricId}
+            selectedFabricId={this.state.selectedFabricId}
+          />
+
           <FabricBar
             fabrics={this.props.fabric}
             setSelectedFabricId={this.setSelectedFabricId}
-            selectedFabricId={this.state.selectedFabricId}/>
+            selectedFabricId={this.state.selectedFabricId}
+          />
           Selected Fabric Id: {this.state.selectedFabricId}
 
           <div className="reset-store" onClick={this.props.onReset}>
@@ -148,31 +173,27 @@ class App extends React.Component {
     }
   }
 
-  // <label>Rows <input type="text" value={this.state.rows} onChange={this.handleRowsChange.bind(this)} /></label>
-  // <label>Cols <input type="text" value={this.state.cols} onChange={this.handleColsChange.bind(this)} /></label>
-
-
-
   render() {
     console.log(this.props);
 
     return (
-      <div>
+      <React.Fragment>
         <div className="sidebar">
           <QuiltForm
+            palettes={this.props.palettes}
             addSquare={this.props.addSquare}
             updateColorPalette={this.props.updateColorPalette}
             blockSize={this.props.app.blockSize}
           />
           {this.renderQuiltOptions()}
-
         </div>
 
         <div className="main">
           <Quilt quilt={this.props.quilt}
             squares={this.props.squares}
             fabrics={this.props.fabric}
-            selectedFabricId={this.state.selectedFabricId}/>
+            selectedFabricId={this.state.selectedFabricId}
+            allowRotation={this.state.allowRotation}/>
 
           <Instructions
             squares={this.props.squares}
@@ -181,8 +202,7 @@ class App extends React.Component {
             quilt={this.props.quilt}
              />
         </div>
-
-      </div>
+      </React.Fragment>
     );
   }
 }

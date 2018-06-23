@@ -1,5 +1,4 @@
 .blockList {
-  margin: 10px 0;
 
   .blockCount {
     min-width: 15px;
@@ -7,8 +6,8 @@
   }
 
   .block {
+    margin: 8px 30px 8px 0;
     display: inline-block;
-    margin-right: 30px;
 
     svg, .blockCount {
       display: inline-block;
@@ -21,7 +20,8 @@
 .instructions {
   margin-top: 50px;
   padding: 0 20px;
-  
+  max-width: 700px;
+
   p {
     margin: 25px 0 15px;
   }

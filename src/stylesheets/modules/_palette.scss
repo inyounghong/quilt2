@@ -1,0 +1,15 @@
+.paletteMenu {
+  .palette {
+    border-radius: 5px;
+    overflow: hidden;
+    height: 30px;
+    width: 300px;
+    margin: 10px 0;
+    cursor: pointer;
+
+    .paletteBlock {
+      height: 30px;
+      display: inline-block;
+    }
+  }
+}
