@@ -57,13 +57,12 @@ class QuiltForm extends Component {
       const blockSize = parseInt(e.target.value);
       if (blockSize < 5) return;
       this.props.setBlockSize(blockSize);
-    } else if (e.target.name == 'rows') {
-      this.props.setRows(e.target.value);
     }
     this.generateQuilt({ [e.target.name]: e.target.value });
   }
 
   handleSubmit(e) {
+    console.log("submitting");
     e.preventDefault();
     this.generateQuilt({});
   }
@@ -79,7 +78,7 @@ class QuiltForm extends Component {
 
   // Return color array for square at [row, col]
   getColors(state, row, col) {
-    const {coloring, numColors} = state;
+    const {coloring, numColors, rows, cols} = state;
     let n = parseInt(numColors);
 
     if (coloring == 'STANDARD') {
@@ -103,21 +102,19 @@ class QuiltForm extends Component {
     return [n1, n2];
   }
 
-  generateSquares(state) {
+  generateSquares(updatedState) {
     // Calculate quilt size
-    const {coloring, numColors} = state;
-    const rows = this.props.rows;
-    const cols = this.props.cols;
+    const {coloring, numColors} = updatedState;
 
     // Get pattern
-    const pattern = this.patterns[state.pattern];
+    const pattern = this.patterns[updatedState.pattern];
 
     // Generate squares
-    for (var i = 0; i < rows; i++) {
+    for (var i = 0; i < this.props.rows; i++) {
       const newSquareIds = [];
-      for (var j = 0; j < cols; j++) {
+      for (var j = 0; j < this.props.cols; j++) {
         const rotation = pattern[i%pattern.length][j%pattern[0].length]; // Get rotation
-        const fabrics = this.getColors(state, i, j);
+        const fabrics = this.getColors(updatedState, i, j);
         const newSquare = this.props.addSquare(rotation, fabrics);
         newSquareIds.push(newSquare.payload.id);
       }
@@ -166,6 +163,7 @@ class QuiltForm extends Component {
 
     return (
       <Form horizontal>
+        <p>{cols} Columns by {rows} Rows</p>
         {/* <FormGroup controlId="formControlsSelect">
           <Col componentClass={ControlLabel} sm={4}>
             Quilt Size
@@ -178,7 +176,7 @@ class QuiltForm extends Component {
           </Col>
         </FormGroup> */}
 
-        <FormGroup>
+        {/* <FormGroup>
           <Col componentClass={ControlLabel} sm={4}>
             Rows
           </Col>
@@ -196,7 +194,7 @@ class QuiltForm extends Component {
             <FormControl type="text" name="cols" value={this.props.cols} onChange={this.handleChange}>
             </FormControl>
           </Col>
-        </FormGroup>
+        </FormGroup> */}
 
         {/* <FormGroup>
           <Col componentClass={ControlLabel} sm={4}>

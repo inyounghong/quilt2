@@ -50,11 +50,13 @@ class App extends React.Component {
   // Index: 0 (first row) or 1 (last row)
   removeRow(index) {
     this.props.removeRowFromQuilt(index);
+    this.props.setRows(this.props.quilt.length - 1);
   }
 
   // Index: 0 (first row) or 1 (last row)
   removeCol(index) {
     this.props.removeColFromQuilt(index);
+    this.props.setCols(this.props.quilt[0].length - 1);
   }
 
   // Option: 0 (add row before) or 1 (add row after)
@@ -65,6 +67,7 @@ class App extends React.Component {
       newSquareIds.push(newSquare.payload.id);
     }
     this.props.addRowToQuilt(newSquareIds, option);
+    this.props.setRows(this.props.quilt.length + 1);
   }
 
   // Option: 0 (add col before) or 1 (add col after)
@@ -75,6 +78,7 @@ class App extends React.Component {
       newSquareIds.push(newSquare.payload.id);
     }
     this.props.addColToQuilt(newSquareIds, option);
+    this.props.setCols(this.props.quilt[0].length + 1);
   }
 
   generateInitialQuilt() {
@@ -170,27 +174,32 @@ class App extends React.Component {
           />
           Selected Fabric Id: {this.state.selectedFabricId}
 
-          <div className="reset-store" onClick={this.props.onReset}>
-            Reset persisted store
-          </div>
         </div>
       )
     }
   }
 
   render() {
+    // this.generateInitialQuilt();
     console.log(this.props);
+    const rows = (this.props.quilt.length == 0) ? 8 : this.props.quilt.length;
+    const cols = (this.props.quilt.length == 0) ? 6 : this.props.quilt[0].length;
 
     return (
       <React.Fragment>
         <div className="sidebar">
+
+          <div className="reset-store" onClick={this.props.onReset}>
+            Reset persisted store
+          </div>
+
           <QuiltForm
             palettes={this.props.palettes}
             addSquare={this.props.addSquare}
             updateColorPalette={this.props.updateColorPalette}
             blockSize={this.props.app.blockSize}
-            rows={this.props.app.rows}
-            cols={this.props.app.cols}
+            rows={rows}
+            cols={cols}
             setRows={this.props.setRows}
             setCols={this.props.setCols}
           />
@@ -235,6 +244,9 @@ const mapDispatchToProps = (dispatch) => ({
 
   setRows(rows) {
     dispatch(appActions.setRows(rows));
+  },
+  setCols(cols) {
+    dispatch(appActions.setCols(cols));
   },
 
   rotateSquare(squareId, rotation) {

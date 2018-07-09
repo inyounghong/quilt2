@@ -8,6 +8,13 @@ function setRows(rows) {
   };
 }
 
+function setCols(cols) {
+  return {
+    type: actionTypes.SET_COLS,
+    payload: cols,
+  };
+}
+
 function setBlockSize(blockSize) {
   return {
     type: actionTypes.SET_BLOCK_SIZE,
@@ -18,5 +25,6 @@ function setBlockSize(blockSize) {
 
 export default {
     setRows,
+    setCols,
     setBlockSize,
 };
