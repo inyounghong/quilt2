@@ -27,7 +27,7 @@ function createSquare() {
     payload: {
       id: uuid.v4(),
       type: "SQUARE",
-      fabricIds: squareTypes.DEFAULT_FABRICS,
+      fabricIds: [0,1],
       rotation: 0
     },
   };

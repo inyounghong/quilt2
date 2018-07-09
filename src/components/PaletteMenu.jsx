@@ -9,10 +9,15 @@ class PaletteMenu extends Component {
 
   render() {
     const {fabrics, palettes} = this.props;
-
+    console.log(this.props);
     const paletteList = Object.keys(palettes).map(key => {
       return (
-        <Palette key={key} palette={palettes[key]["palette"]}/>
+        <Palette
+          key={key}
+          k={key}
+          palette={palettes[key]["palette"]}
+          setSelectedPaletteId={this.props.setSelectedPaletteId}
+        />
       )
     })
 

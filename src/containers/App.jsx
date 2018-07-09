@@ -4,7 +4,7 @@ import quiltActions from '../redux/actions/quilt';
 import appActions from '../redux/actions/app';
 import fabricActions from '../redux/actions/fabric';
 import { connect } from 'react-redux';
-import Quilt from '../components/Quilt.jsx';
+import Quilt from '../containers/Quilt.jsx';
 import PaletteMenu from '../components/PaletteMenu.jsx';
 import Instructions from '../components/Instructions.jsx';
 import FabricBar from '../containers/FabricBar.jsx';
@@ -18,6 +18,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.setSelectedFabricId = this.setSelectedFabricId.bind(this);
+    this.setSelectedPaletteId = this.setSelectedPaletteId.bind(this);
     this.addRow = this.addRow.bind(this);
     this.addCol = this.addCol.bind(this);
     this.removeRow = this.removeRow.bind(this);
@@ -26,8 +27,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       selectedFabricId: null,
-      rows: 0,
-      cols: 0,
+      selectedPaletteId: null,
       squareSize: 6,
       numColors: 2,
       allowRotation: false,
@@ -42,14 +42,19 @@ class App extends React.Component {
     this.setState({selectedFabricId: fabricId});
   }
 
-  removeRow(index) {
-    const i = (index == 0) ? 0 : (this.props.quilt.length - 1);
-    this.props.removeRowFromQuilt(i);
+  setSelectedPaletteId(paletteId) {
+    console.log("clicked", paletteId);
+    this.setState({selectedPaletteId: paletteId});
   }
 
+  // Index: 0 (first row) or 1 (last row)
+  removeRow(index) {
+    this.props.removeRowFromQuilt(index);
+  }
+
+  // Index: 0 (first row) or 1 (last row)
   removeCol(index) {
-    const i = (index == 0) ? 0 : (this.props.quilt.length - 1);
-    this.props.removeColFromQuilt(i);
+    this.props.removeColFromQuilt(index);
   }
 
   // Option: 0 (add row before) or 1 (add row after)
@@ -63,7 +68,6 @@ class App extends React.Component {
   }
 
   // Option: 0 (add col before) or 1 (add col after)
-  // Returns list of square ids to be added to each row
   addCol(option) {
     const newSquareIds = [];
     for (var i = 0; i < this.props.quilt.length; i++) {
@@ -74,7 +78,7 @@ class App extends React.Component {
   }
 
   generateInitialQuilt() {
-    const {rows, cols} = this.state;
+    const {rows, cols} = this.props.app;
     for (var i = 0; i < rows; i++) {
       const newSquareIds = [];
       for (var j = 0; j < cols; j++) {
@@ -123,7 +127,6 @@ class App extends React.Component {
   renderQuiltOptions() {
     // this.props.onReset();
     const { quilt } = this.props;
-    console.log(this.state);
 
     if (quilt.length > 0) {
       return (
@@ -155,8 +158,10 @@ class App extends React.Component {
             fabrics={this.props.fabric}
             palettes={this.props.palettes}
             setSelectedFabricId={this.setSelectedFabricId}
+            setSelectedPaletteId={this.setSelectedPaletteId}
             selectedFabricId={this.state.selectedFabricId}
           />
+          {this.state.selectedPaletteId}
 
           <FabricBar
             fabrics={this.props.fabric}
@@ -184,6 +189,10 @@ class App extends React.Component {
             addSquare={this.props.addSquare}
             updateColorPalette={this.props.updateColorPalette}
             blockSize={this.props.app.blockSize}
+            rows={this.props.app.rows}
+            cols={this.props.app.cols}
+            setRows={this.props.setRows}
+            setCols={this.props.setCols}
           />
           {this.renderQuiltOptions()}
         </div>
@@ -193,7 +202,12 @@ class App extends React.Component {
             squares={this.props.squares}
             fabrics={this.props.fabric}
             selectedFabricId={this.state.selectedFabricId}
-            allowRotation={this.state.allowRotation}/>
+            allowRotation={this.state.allowRotation}
+            addRow={this.addRow}
+            addCol={this.addCol}
+            removeRow={this.removeRow}
+            removeCol={this.removeCol}
+          />
 
           <Instructions
             squares={this.props.squares}
@@ -215,6 +229,21 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(newSquare);
     return newSquare;
   },
+  updateColorPalette(palette) {
+    dispatch(fabricActions.updateColorPalette(palette));
+  },
+
+  setRows(rows) {
+    dispatch(appActions.setRows(rows));
+  },
+
+  rotateSquare(squareId, rotation) {
+    dispatch(squaresActions.rotateSquare(squareId, rotation));
+  },
+  updateSquare(newSquare) {
+    dispatch(squaresActions.updateSquare(newSquare));
+  },
+
   addRowToQuilt(row, option) {
     dispatch(quiltActions.addRow(row, option));
   },
@@ -226,18 +255,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   removeColFromQuilt(index) {
     dispatch(quiltActions.removeCol(index));
-  },
-  updateColorPalette(palette) {
-    dispatch(fabricActions.updateColorPalette(palette));
-  },
-  updateRows(rows) {
-    dispatch(appActions.updateRows(rows));
-  },
-  rotateSquare(squareId, rotation) {
-    dispatch(squaresActions.rotateSquare(squareId, rotation));
-  },
-  updateSquare(newSquare) {
-    dispatch(squaresActions.updateSquare(newSquare));
   },
 });
 

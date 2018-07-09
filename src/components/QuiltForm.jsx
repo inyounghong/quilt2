@@ -57,6 +57,8 @@ class QuiltForm extends Component {
       const blockSize = parseInt(e.target.value);
       if (blockSize < 5) return;
       this.props.setBlockSize(blockSize);
+    } else if (e.target.name == 'rows') {
+      this.props.setRows(e.target.value);
     }
     this.generateQuilt({ [e.target.name]: e.target.value });
   }
@@ -103,17 +105,17 @@ class QuiltForm extends Component {
 
   generateSquares(state) {
     // Calculate quilt size
-    const {quiltSize, blockSize, coloring, numColors} = state;
-    state.rows = Math.round(this.quiltSizes[quiltSize][1]/blockSize);
-    state.cols = Math.round(this.quiltSizes[quiltSize][0]/blockSize);
+    const {coloring, numColors} = state;
+    const rows = this.props.rows;
+    const cols = this.props.cols;
 
     // Get pattern
     const pattern = this.patterns[state.pattern];
 
     // Generate squares
-    for (var i = 0; i < state.rows; i++) {
+    for (var i = 0; i < rows; i++) {
       const newSquareIds = [];
-      for (var j = 0; j < state.cols; j++) {
+      for (var j = 0; j < cols; j++) {
         const rotation = pattern[i%pattern.length][j%pattern[0].length]; // Get rotation
         const fabrics = this.getColors(state, i, j);
         const newSquare = this.props.addSquare(rotation, fabrics);
@@ -132,7 +134,8 @@ class QuiltForm extends Component {
     this.generateSquares(state);
 
     // Set random color palette
-    const p = Math.floor(Math.random() * this.palettes.length);
+    // const p = Math.floor(Math.random() * this.palettes.length);
+    const p = 2;
     this.props.updateColorPalette(this.palettes[p]["palette"]);
   }
 
@@ -152,11 +155,18 @@ class QuiltForm extends Component {
 
   render() {
     const {blockSize} = this.state;
+    // this.state.rows = this.props.rows;
+    // this.state.cols = this.props.cols;
+    // const rows = this.state.rows;
+    // const cols = this.state.cols;
+    const rows = this.props.rows;
+    const cols = this.props.cols;
+
     console.log(this.state);
 
     return (
       <Form horizontal>
-        <FormGroup controlId="formControlsSelect">
+        {/* <FormGroup controlId="formControlsSelect">
           <Col componentClass={ControlLabel} sm={4}>
             Quilt Size
           </Col>
@@ -166,9 +176,29 @@ class QuiltForm extends Component {
               {this.getQuiltSizeOptions()}
             </FormControl>
           </Col>
+        </FormGroup> */}
+
+        <FormGroup>
+          <Col componentClass={ControlLabel} sm={4}>
+            Rows
+          </Col>
+          <Col sm={8}>
+            <FormControl type="text" name="rows" value={rows} onChange={this.handleChange}>
+            </FormControl>
+          </Col>
         </FormGroup>
 
         <FormGroup>
+          <Col componentClass={ControlLabel} sm={4}>
+            Columns
+          </Col>
+          <Col sm={8}>
+            <FormControl type="text" name="cols" value={this.props.cols} onChange={this.handleChange}>
+            </FormControl>
+          </Col>
+        </FormGroup>
+
+        {/* <FormGroup>
           <Col componentClass={ControlLabel} sm={4}>
             Block Size
           </Col>
@@ -176,7 +206,7 @@ class QuiltForm extends Component {
             <FormControl type="text" name="blockSize" value={blockSize} onChange={this.handleChange}>
             </FormControl>
           </Col>
-        </FormGroup>
+        </FormGroup> */}
 
         <FormGroup>
           <Col componentClass={ControlLabel} sm={4}>

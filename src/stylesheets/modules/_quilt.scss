@@ -1,3 +1,46 @@
 .quiltRow {
   text-align: center;
 }
+
+.quiltWrap {
+  text-align: center;
+
+  .control {
+    background: #eee;
+
+    .action {
+      cursor: pointer;
+      color: #888;
+
+      &:hover {
+        color: black;
+      }
+    }
+
+  }
+
+  .rowControl {
+    height: 50px;
+    margin: 0 auto;
+
+    .action {
+
+    }
+  }
+
+  .colControl {
+    width: 50px;
+    padding-top: 20%;
+    display: inline-block;
+    vertical-align: top;
+
+    .action{
+      margin: 30px 0;
+    }
+  }
+
+  .quilt {
+    display: inline-block;
+    vertical-align: top;
+  }
+}

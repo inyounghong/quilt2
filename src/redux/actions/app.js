@@ -1,9 +1,9 @@
 import uuid from 'uuid';
 import * as actionTypes from '../../constants/actionTypes';
 
-function updateRows(rows) {
+function setRows(rows) {
   return {
-    type: actionTypes.UPDATE_ROWS,
+    type: actionTypes.SET_ROWS,
     payload: rows,
   };
 }
@@ -17,6 +17,6 @@ function setBlockSize(blockSize) {
 
 
 export default {
-    updateRows,
+    setRows,
     setBlockSize,
 };

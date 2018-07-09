@@ -39,14 +39,7 @@ class Fabric extends Component {
           value={fabric.id}
           onClick={this.handleFocus.bind(this, fabric.id)}
         />
-        <div className="fabricMenu">
-          Change Color
-        </div>
         {background}
-        {/* { displayColorPicker ? <TwitterPicker
-          color={ this.state.background }
-          onChangeComplete={ this.handleChangeComplete } */}
-        /> : null }
 
       </div>
     );

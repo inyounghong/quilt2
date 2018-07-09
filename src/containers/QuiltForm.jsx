@@ -16,9 +16,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(newSquare);
     return newSquare;
   },
-  addRowToQuilt(row, option) {
-    dispatch(quiltActions.addRow(row, option));
-  },
   clearQuilt() {
     dispatch(quiltActions.clearQuilt());
     dispatch(squaresActions.clearSquares());
@@ -26,6 +23,18 @@ const mapDispatchToProps = (dispatch) => ({
   setBlockSize(blockSize) {
     // console.log("setting block size", blockSize);
     dispatch(appActions.setBlockSize(blockSize));
+  },
+  addRowToQuilt(row, option) {
+    dispatch(quiltActions.addRow(row, option));
+  },
+  removeRowFromQuilt(index) {
+    dispatch(quiltActions.removeRow(index));
+  },
+  addColToQuilt(col, option) {
+    dispatch(quiltActions.addCol(col, option));
+  },
+  removeColFromQuilt(index) {
+    dispatch(quiltActions.removeCol(index));
   },
 
 });

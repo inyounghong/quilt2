@@ -6,8 +6,8 @@ class Quilt extends Component {
   constructor(props) {
     super(props);
     this.state = {}
-    this.HEIGHT = 550;
-    this.WIDTH = 800;
+    this.HEIGHT = 500;
+    this.WIDTH = 700;
   }
 
   // Returns rotation list with given size
@@ -28,6 +28,22 @@ class Quilt extends Component {
     return Math.min(this.HEIGHT/rows, this.WIDTH/cols);
   }
 
+  handleAddCol(option) {
+    this.props.addCol(option);
+  }
+
+  handleRemoveCol(option) {
+    this.props.removeCol(option);
+  }
+
+  handleAddRow(option) {
+    this.props.addRow(option);
+  }
+
+  handleRemoveRow(option) {
+    this.props.removeRow(option);
+  }
+
   render() {
     const {quilt, fabrics, squares, selectedFabricId} = this.props;
 
@@ -44,8 +60,7 @@ class Quilt extends Component {
         }
         return (
           <Square
-            key={i*cols+j}
-            col={j}
+            key={(i*cols) + j}
             square={square}
             fabrics={fabrics}
             selectedFabricId={selectedFabricId}
@@ -64,9 +79,38 @@ class Quilt extends Component {
 
     fullQuilt.reverse();
 
+    const height = size * rows;
+    const width = size * (cols+2);
+    const colStyle = {
+      height: height + 'px',
+    }
+    const rowStyle = {
+      width: width + 'px',
+    }
+
     return (
-      <div className="quilt">
-        {fullQuilt}
+      <div className="quiltWrap">
+        <div className="rowControl control" style={rowStyle}>
+          <div className="addRow action" onClick={this.handleAddRow.bind(this, 0)}>+ Add Row</div>
+          <div className="removeRow action" onClick={this.handleRemoveRow.bind(this, 0)}>- Delete Row</div>
+        </div>
+
+        <div className="colControl control" style={colStyle}>
+          <div className="addCol action" onClick={this.handleAddCol.bind(this, 0)}>+ Add Col</div>
+          <div className="removeCol action" onClick={this.handleRemoveCol.bind(this, 0)}>- Delete Col</div>
+        </div>
+        <div className="quilt">
+          {fullQuilt}
+        </div>
+        <div className="colControl control" style={colStyle}>
+          <div className="addCol action" onClick={this.handleAddCol.bind(this, 1)}>+ Add Col</div>
+          <div className="removeCol action" onClick={this.handleRemoveCol.bind(this, 1)}>- Delete Col</div>
+        </div>
+
+        <div className="rowControl control" style={rowStyle}>
+          <div className="addRow action" onClick={this.handleAddRow.bind(this, 0)}>+ Add Row</div>
+          <div className="removeRow action" onClick={this.handleRemoveRow.bind(this, 0)}>- Delete Row</div>
+        </div>
       </div>
     );
   }

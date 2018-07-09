@@ -51,6 +51,10 @@ class Square extends React.Component {
   render() {
 
     const {col, fabrics, square, rotations, size} = this.props;
+    if (!fabrics[square.fabricIds[0]]) {
+      console.log("Error: Cannot find fabric", square.fabricIds[0])
+      return(<div key={square.fabricIds[0]}>Color Error</div>)
+    }
     const color0 = fabrics[square.fabricIds[0]].color;
     const color1 = fabrics[square.fabricIds[1]].color;
 

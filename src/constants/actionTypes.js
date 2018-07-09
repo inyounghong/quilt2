@@ -11,7 +11,9 @@ export const SET_BLOCK_SIZE = 'SET_BLOCK_SIZE';
 export const FLYING_GEESE = 'FLYING_GEESE';
 // export const UPDATE_QUILT = 'UPDATE_QUILT';
 
-// export const UPDATE_ROWS = 'UPDATE_ROWS';
+export const SET_ROWS = 'SET_ROWS';
+export const SET_COLS = 'SET_COLS';
+
 
 export const ADD_SQUARE = 'ADD_SQUARE';
 export const CREATE_SQUARE = 'CREATE_SQUARE';

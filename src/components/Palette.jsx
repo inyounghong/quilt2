@@ -6,8 +6,13 @@ class Palette extends Component {
     super(props);
   }
 
+
+  handleClick(k) {
+    this.props.setSelectedPaletteId(k);
+  }
+
   render() {
-    const {palette} = this.props;
+    const {palette, k} = this.props;
 
     const paletteBlock = palette.map(color => {
       const style = {
@@ -20,7 +25,7 @@ class Palette extends Component {
     })
 
     return (
-      <div className="palette">
+      <div className="palette" onClick={this.handleClick.bind(this, k)}>
         {paletteBlock}
       </div>
     )

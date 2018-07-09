@@ -8,7 +8,7 @@ const defaultState = {
 
 export default function app(state = defaultState, action) {
   switch (action.type) {
-    case actionTypes.UPDATE_ROWS:
+    case actionTypes.SET_ROWS:
       return Object.assign({}, state, {
           rows: action.payload,
       });

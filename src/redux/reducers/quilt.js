@@ -13,6 +13,7 @@ import update from 'react-addons-update';
 const defaultState = [];
 
 export default function quilt(state = defaultState, action) {
+  let index = null;
 
   switch (action.type) {
     case actionTypes.ADD_ROW:
@@ -54,21 +55,25 @@ export default function quilt(state = defaultState, action) {
 
     case actionTypes.CLEAR_QUILT:
       return [];
-    
+
     case actionTypes.FLYING_GEESE:
 
 
 
     case actionTypes.REMOVE_ROW:
-      const index = action.payload;
+      index = action.payload;
       return state.filter((row, i) => i != index);
 
-    case actionTypes.REMOVE_COL:
-      const ci = action.payload;
+    case actionTypes.REMOVE_COL: // Index 0 or not
+      index = action.payload;
       const newState = []
-      for (let j = 0; j < state.length; j++) {
-        console.log("removing", state, j, state[j]);
-        const newRow = state[j].slice(0,ci).concat(state[j].slice(ci+1));
+      for (let i = 0; i < state.length; i++) {
+        let newRow = null;
+        if (index == 0) {
+          newRow = state[i].slice(1);
+        } else {
+          newRow = state[i].slice(0,-1);
+        }
         newState.push(newRow);
       }
       return newState;

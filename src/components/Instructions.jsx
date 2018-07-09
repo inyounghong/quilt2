@@ -32,6 +32,7 @@ class Instructions extends Component {
   getMaterials(squares, fabrics, blockSize) {
     const colorCounts = this.getColorCounts(squares);
     const squareList = Object.keys(colorCounts).map(k => {
+      if (!fabrics[k]) return(<div key={k}>Color Error</div>);
       const squareCount = Math.floor(colorCounts[k]/2);
       if (squareCount == 0) return;
       return (
@@ -86,6 +87,7 @@ class Instructions extends Component {
 
     // Calculate quilt sizes
     const rows = quilt.length;
+    if (rows == 0) return null;
     const cols = quilt[0].length;
     const sizeAcross = blockSize * cols;
     const sizeDown = blockSize * rows;
